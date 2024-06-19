@@ -1,0 +1,15 @@
+{
+  "name": "oinker-bot",
+  "version": "0.0.1",
+  "description": "A Discord bot for a certain space cat.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "frost_bunny",
+  "license": "ISC",
+  "dependencies": {
+    "discord.js": "^14.15.3",
+    "dotenv": "^16.4.5"
+  }
+}
