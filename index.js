@@ -11,7 +11,11 @@ const TOKEN = process.env.TOKEN;
 const DEBUG = process.env.DEBUG === 'true' ? true : false;
 
 const client = new Client({
-  intents: [GatewayIntentBits.Guilds],
+  intents: [
+    GatewayIntentBits.Guilds,
+    GatewayIntentBits.GuildMessages,
+    GatewayIntentBits.MessageContent,
+  ],
   presence: {
     activities: [{ name: 'you sleep', type: ActivityType.Watching }],
   },
