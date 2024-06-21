@@ -1,11 +1,17 @@
 require('dotenv').config();
+const argv = require('yargs/yargs')(process.argv.slice(2)).parse();
+
 const { REST, Routes } = require('discord.js');
 const { readdirSync } = require('node:fs');
 const { join } = require('node:path');
 
 const token = process.env.TOKEN;
 const clientId = process.env.CLIENT_ID;
-const guildId = process.env.DEV_GUILD_ID;
+if (argv.deploy) {
+  const guildId = process.env.MAIN_GUILD_ID;
+} else {
+  const guildId = process.env.DEV_GUILD_ID;
+}
 
 const commands = [];
 // Grab all the command folders from the commands directory you created earlier
