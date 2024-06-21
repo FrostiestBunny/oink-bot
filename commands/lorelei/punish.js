@@ -13,7 +13,7 @@ const data = new SlashCommandBuilder()
   .addIntegerOption((option) =>
     option
       .setName('duration')
-      .setDescription('Duration of time out (in seconds)')
+      .setDescription('Duration of time out in seconds (60s default)')
   );
 
 const execute = async (interaction) => {
@@ -32,7 +32,9 @@ const execute = async (interaction) => {
   }
 
   await interaction.channel.send(
-    `Hey, <@${target.id}>. It's time for you to apologize!`
+    `Hey, <@${target.id}>! It's time for you to apologize!\n
+    You have one minute to send a proper apology in this channel.\n
+    Any other message but the full gomenasorry text will get you timed out!`
   );
 
   const filter = (m) => m.member.id === target.id;
