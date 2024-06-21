@@ -7,12 +7,13 @@ const { join } = require('node:path');
 
 const token = process.env.TOKEN;
 const clientId = process.env.CLIENT_ID;
+let guildId;
 let deploymentMessage;
 if (argv.deploy) {
-  const guildId = process.env.MAIN_GUILD_ID;
+  guildId = process.env.MAIN_GUILD_ID;
   deploymentMessage = 'Deploying to the Space Cat Server';
 } else {
-  const guildId = process.env.DEV_GUILD_ID;
+  guildId = process.env.DEV_GUILD_ID;
   deploymentMessage = 'Deploying to the Development Server';
 }
 
