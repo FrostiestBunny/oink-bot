@@ -24,12 +24,12 @@ const execute = async (interaction) => {
       'Content-Type': 'application/json',
     },
   };
-
+  let total;
+  let url = SE_ENDPOINTS.POINTS + `${CHANNEL_ID}/top`;
   try {
-    let url = SE_ENDPOINTS.POINTS + `${CHANNEL_ID}/top`;
     let response = await fetch(url, options);
     response = await response.json();
-    const total = response._total;
+    total = response._total;
   } catch (err) {
     console.error(err);
     return;
