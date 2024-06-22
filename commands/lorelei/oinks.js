@@ -16,7 +16,7 @@ const data = new SlashCommandBuilder()
 
 const execute = async (interaction) => {
   await interaction.deferReply();
-  const name = interaction.options.getString('name');
+  const name = interaction.options.getString('name').toLowerCase();
 
   const options = {
     method: 'GET',
