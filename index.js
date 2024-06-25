@@ -1,14 +1,17 @@
 require('dotenv').config();
 const fs = require('node:fs');
 const path = require('node:path');
+const Sequelize = require('sequelize');
 const {
   ActivityType,
   Client,
   Collection,
   GatewayIntentBits,
 } = require('discord.js');
+
 const TOKEN = process.env.TOKEN;
 const DEBUG = process.env.DEBUG === 'true' ? true : false;
+const DB_PASS = process.env.DB_PASS;
 
 const client = new Client({
   intents: [
@@ -23,6 +26,31 @@ const client = new Client({
 
 client.commands = new Collection();
 client.cooldowns = new Collection();
+
+// *** DATABASE STUFF ***
+const sequelize = new Sequelize('database', 'admin', DB_PASS, {
+  host: 'localhost',
+  dialect: 'sqlite',
+  logging: DEBUG,
+  storage: 'database.sqlite',
+});
+
+// CREATE TABLE |discord_id|discord_name|twitch_name|oinks|
+const Twitch = new sequelize.define('twitch', {
+  discord_id: {
+    type: Sequelize.STRING,
+    unique: true,
+  },
+  discord_name: Sequelize.STRING,
+  twitch_name: Sequelize.STRING,
+  oinks: {
+    type: Sequelize.INTEGER,
+    defaultValue: 0,
+  },
+});
+
+client.twitchDB = Twitch;
+// *** END OF DATABASE STUFF ***
 
 const foldersPath = path.join(__dirname, 'commands');
 const commandFolders = fs.readdirSync(foldersPath);
