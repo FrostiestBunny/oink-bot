@@ -32,9 +32,7 @@ const execute = async (interaction) => {
   }
 
   await interaction.channel.send(
-    `Hey, <@${target.id}>! It's time for you to apologize!\n
-    You have one minute to send a proper apology in this channel.\n
-    Any other message but the full gomenasorry text will get you timed out!`
+    `Hey, <@${target.id}>! It's time for you to apologize!\n\nYou have one minute to send a proper apology in this channel.\n\nAny other message but the full gomenasorry text will get you timed out!`
   );
 
   const filter = (m) => m.member.id === target.id;
