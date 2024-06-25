@@ -36,7 +36,7 @@ const sequelize = new Sequelize('database', 'admin', DB_PASS, {
 });
 
 // CREATE TABLE |discord_id|discord_name|twitch_name|oinks|
-const Twitch = new sequelize.define('twitch', {
+const Twitch = sequelize.define('twitch_name', {
   discord_id: {
     type: Sequelize.STRING,
     unique: true,
