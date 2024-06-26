@@ -4,16 +4,21 @@ const data = new SlashCommandBuilder()
   .setName('punish')
   .setDescription('Force a disobedient oinker to apologize properly.')
   .setDefaultMemberPermissions(PermissionFlagsBits.ModerateMembers)
-  .addUserOption((option) =>
-    option
-      .setName('target')
-      .setDescription('The evildoer to punish')
-      .setRequired(true)
-  )
-  .addIntegerOption((option) =>
-    option
-      .setName('duration')
-      .setDescription('Duration of time out in seconds (60s default)')
+  .addSubcommand((subcommand) =>
+    subcommand
+      .setName('one')
+      .setDescription('Punish one person.')
+      .addUserOption((option) =>
+        option
+          .setName('target')
+          .setDescription('The evildoer to punish')
+          .setRequired(true)
+      )
+      .addIntegerOption((option) =>
+        option
+          .setName('duration')
+          .setDescription('Duration of time out in seconds (60s default)')
+      )
   );
 
 const execute = async (interaction) => {
@@ -22,6 +27,7 @@ const execute = async (interaction) => {
   const gomen =
     'Gomenasorry ojousama supreme commander cult leader hime princess nya nya';
   await interaction.deferReply({ ephemeral: true });
+
   const target = interaction.options.getMember('target');
 
   if (!target.manageable || !target.moderatable) {
