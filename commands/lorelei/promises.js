@@ -11,7 +11,7 @@ const execute = async (interaction) => {
   await interaction.deferReply();
   const { content, member } = interaction.targetMessage;
 
-  if (member.id != '1223661332964970547') {
+  if (member.id != '1223661332964970547' && member.id != '178887072864665600') {
     return interaction.followUp(
       "You can only create promises from Lorelei's messages <:nyaNerd:1251606395523039303>"
     );
