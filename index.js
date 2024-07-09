@@ -49,7 +49,19 @@ const Twitch = sequelize.define('twitch_name', {
   },
 });
 
+const LPromises = sequelize.define('promise', {
+  promise: {
+    type: Sequelize.TEXT,
+    unique: true,
+  },
+  fulfilled: {
+    type: Sequelize.BOOLEAN,
+    defaultValue: false,
+  },
+});
+
 client.twitchDB = Twitch;
+client.promiseDB = LPromises;
 // *** END OF DATABASE STUFF ***
 
 const foldersPath = path.join(__dirname, 'commands');
