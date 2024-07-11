@@ -1,4 +1,4 @@
-const { SlashCommandBuilder } = require('discord.js');
+const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 
 const data = new SlashCommandBuilder()
   .setName('promise')
@@ -9,17 +9,31 @@ const data = new SlashCommandBuilder()
 
 const execute = async (interaction) => {
   if (interaction.options.getSubcommand() === 'all') {
+    const promisesPerPage = 5;
+
     await interaction.deferReply();
 
     const promiseList = await interaction.client.promiseDB.findAll({
       attributes: ['promise'],
     });
+
+    const pages = [];
+
+    for (let i = 0; i < promiseList.length; i += promisesPerPage) {
+      const page = promiseList.slice(i, i + promisesPerPage);
+      pages.push(page);
+    }
+
     const promiseString =
-      promiseList.map((p) => `- ${p.promise}`).join('\n') ||
+      promiseList.map((p) => `☆ ${p.promise}`).join('\n\n') ||
       'No promises found';
-    return interaction.followUp(
-      `All of Lorelei's promises so far:\n${promiseString}`
-    );
+
+    const embed = new EmbedBuilder()
+      .setColor('LuminousVividPink')
+      .setTitle("Lorelei's Promises")
+      .addFields({ name: 'Page 1', value: promiseString });
+
+    return interaction.followUp({ embeds: [embed] });
   }
 };
 
