@@ -97,7 +97,7 @@ const execute = async (interaction) => {
       .awaitMessages({
         filter,
         max: validTargets.length,
-        time: 10_000,
+        time: 60_000,
         errors: ['time'],
       })
       .then(async (collected) => {
