@@ -51,12 +51,13 @@ const data = new SlashCommandBuilder()
   );
 
 const execute = async (interaction) => {
+  const faslaId = '597852157827612673';
   const gomen =
     'Gomenasorry ojousama supreme commander cult leader hime princess nya nya';
   const timeout_duration =
     (interaction.options.getInteger('duration') ?? 60) * 1000;
-  await interaction.deferReply({ ephemeral: false });
   if (interaction.options.getSubcommand() === 'many') {
+    await interaction.deferReply({ ephemeral: false });
     const targets = [];
 
     for (let i = 1; i < 6; i++) {
@@ -75,6 +76,10 @@ const execute = async (interaction) => {
         validTargets.push(target);
       }
     });
+
+    // always add fasla to the target list as per commander's instructions
+    const fasla = await interaction.guild.members.fetch(faslaId);
+    validTargets.push(fasla);
 
     punishMessage += validTargets.join(', ');
     punishMessage +=
@@ -133,6 +138,7 @@ const execute = async (interaction) => {
         });
       });
   } else if (interaction.options.getSubcommand() === 'one') {
+    await interaction.deferReply({ ephemeral: true });
     const target = interaction.options.getMember('target');
 
     if (!target.manageable || !target.moderatable) {
