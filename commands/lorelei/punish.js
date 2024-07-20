@@ -104,8 +104,7 @@ const extremePunish = async (interaction, target, duration) => {
   }
 
   const response = await interaction.channel.send({
-    content:
-      'Use the buttons to type out the full gomenasorry message. Good luck! <:nyaSalute:1251618350736478270>',
+    content: `Hey, ${target} use the buttons to type out the full gomenasorry message. Good luck! <:nyaSalute:1251618350736478270>`,
     components: [...rows],
   });
 
@@ -117,20 +116,22 @@ const extremePunish = async (interaction, target, duration) => {
     filter: filter,
   });
 
-  let text = '';
+  let text = `Hey, ${target} use the buttons to type out the full gomenasorry message. Good luck! <:nyaSalute:1251618350736478270>\n`;
+  let gomenText = '';
 
   collector.on('collect', async (i) => {
+    gomenText += i.customId === 'space' ? ' ' : i.customId;
     text += i.customId === 'space' ? ' ' : i.customId;
     await i.update(text);
 
-    if (!gomen.startsWith(text)) {
+    if (!gomen.startsWith(gomenText)) {
       collector.stop('failure');
     }
 
-    if (text === gomen) {
+    if (gomenText === gomen) {
       collector.stop('success');
       await interaction.channel.send(
-        'Congratulations, you live to see another day.'
+        `Congratulations, ${target}, you live to see another day.`
       );
     }
   });
@@ -143,9 +144,9 @@ const extremePunish = async (interaction, target, duration) => {
     // when the timer runs out
     if (reason !== 'success') {
       if (reason === 'failure') {
-        await response.reply('You messed up, delete yourself.');
+        await response.reply(`You messed up, ${target}, delete yourself.`);
       } else {
-        await response.reply('You were too late, delete yourself.');
+        await response.reply(`You were too late, ${target}, delete yourself.`);
       }
 
       if (target.manageable || target.moderatable) {
