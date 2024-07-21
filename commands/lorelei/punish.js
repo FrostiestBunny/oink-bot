@@ -70,11 +70,18 @@ const data = new SlashCommandBuilder()
       .addIntegerOption((option) =>
         option
           .setName('duration')
-          .setDescription('Duration of the timeout in seconds')
+          .setDescription('Duration of the timeout in seconds (60s default)')
+      )
+      .addIntegerOption((option) =>
+        option
+          .setName('time')
+          .setDescription(
+            'How much time they have to type in seconds (120s default)'
+          )
       )
   );
 
-const extremePunish = async (channel, target, duration) => {
+const extremePunish = async (channel, target, duration, timeInSeconds) => {
   const gomen =
     'Gomenasorry ojousama supreme commander cult leader hime princess nya nya';
 
@@ -103,8 +110,10 @@ const extremePunish = async (channel, target, duration) => {
     rows.push(row);
   }
 
+  let secondsLeft = timeInSeconds;
+
   const response = await channel.send({
-    content: `Hey, ${target} use the buttons to type out the full gomenasorry message. Good luck! <:nyaSalute:1251618350736478270>`,
+    content: `Hey, ${target} use the buttons to type out the full gomenasorry message. Good luck! <:nyaSalute:1251618350736478270>\nTime left: ${secondsLeft} seconds\n`,
     components: [...rows],
   });
 
@@ -112,12 +121,30 @@ const extremePunish = async (channel, target, duration) => {
 
   const collector = response.createMessageComponentCollector({
     componentType: ComponentType.Button,
-    time: 3 * 60 * 1000,
+    time: secondsLeft * 1000,
     filter: filter,
   });
 
-  let text = `Hey, ${target} use the buttons to type out the full gomenasorry message. Good luck! <:nyaSalute:1251618350736478270>\n`;
+  let text = `Hey, ${target} use the buttons to type out the full gomenasorry message. Good luck! <:nyaSalute:1251618350736478270>\nTime left: ${secondsLeft} seconds\n`;
   let gomenText = '';
+
+  const updateTime = 5;
+
+  const intervalId = setInterval(async () => {
+    secondsLeft -= updateTime;
+    text = text.replace(/(\d+)(?= seconds)/, `${secondsLeft}`);
+    try {
+      await response.edit(text);
+    } catch (err) {
+      console.error(err);
+      return;
+    }
+  }, updateTime * 1000);
+
+  const timeoutId = setTimeout(
+    () => clearInterval(intervalId),
+    (secondsLeft - 1) * 1000
+  );
 
   collector.on('collect', async (i) => {
     gomenText += i.customId === 'space' ? ' ' : i.customId;
@@ -125,6 +152,8 @@ const extremePunish = async (channel, target, duration) => {
     await i.update(text);
 
     if (!gomen.startsWith(gomenText)) {
+      clearTimeout(timeoutId);
+      clearInterval(intervalId);
       collector.stop('failure');
     }
 
@@ -141,7 +170,6 @@ const extremePunish = async (channel, target, duration) => {
   });
 
   collector.on('end', async (collected, reason) => {
-    // when the timer runs out
     if (reason !== 'success') {
       if (reason === 'failure') {
         await response.reply(`You messed up, ${target}, delete yourself.`);
@@ -153,6 +181,8 @@ const extremePunish = async (channel, target, duration) => {
         await target.timeout(duration, 'Failed to apologize');
       }
     }
+
+    await response.edit({ components: [] });
   });
 };
 
@@ -296,7 +326,13 @@ const execute = async (interaction) => {
   } else if (interaction.options.getSubcommand() == 'extreme') {
     await interaction.deferReply({ ephemeral: true });
     const target = interaction.options.getMember('target');
-    await extremePunish(interaction.channel, target, timeout_duration);
+    const timeInSeconds = interaction.options.getInteger('time') ?? 120;
+    await extremePunish(
+      interaction.channel,
+      target,
+      timeout_duration,
+      timeInSeconds
+    );
     await interaction.editReply(
       '<:nyaSalute:1251618350736478270> yes supreme commyander princess hime nya nya'
     );

@@ -13,7 +13,12 @@ module.exports = {
 
     for (const word of bannedWords) {
       if (word.test(message.content)) {
-        await extremePunish(message.channel, message.member, punishDuration);
+        await extremePunish(
+          message.channel,
+          message.member,
+          punishDuration,
+          120
+        );
       }
     }
   },
