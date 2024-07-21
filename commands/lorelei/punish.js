@@ -74,7 +74,7 @@ const data = new SlashCommandBuilder()
       )
   );
 
-const extremePunish = async (interaction, target, duration) => {
+const extremePunish = async (channel, target, duration) => {
   const gomen =
     'Gomenasorry ojousama supreme commander cult leader hime princess nya nya';
 
@@ -103,7 +103,7 @@ const extremePunish = async (interaction, target, duration) => {
     rows.push(row);
   }
 
-  const response = await interaction.channel.send({
+  const response = await channel.send({
     content: `Hey, ${target} use the buttons to type out the full gomenasorry message. Good luck! <:nyaSalute:1251618350736478270>`,
     components: [...rows],
   });
@@ -130,7 +130,7 @@ const extremePunish = async (interaction, target, duration) => {
 
     if (gomenText === gomen) {
       collector.stop('success');
-      await interaction.channel.send(
+      await channel.send(
         `Congratulations, ${target}, you live to see another day.`
       );
     }
@@ -296,11 +296,11 @@ const execute = async (interaction) => {
   } else if (interaction.options.getSubcommand() == 'extreme') {
     await interaction.deferReply({ ephemeral: true });
     const target = interaction.options.getMember('target');
-    await extremePunish(interaction, target, timeout_duration);
+    await extremePunish(interaction.channel, target, timeout_duration);
     await interaction.editReply(
       '<:nyaSalute:1251618350736478270> yes supreme commyander princess hime nya nya'
     );
   }
 };
 
-module.exports = { data, execute };
+module.exports = { data, execute, extremePunish };
