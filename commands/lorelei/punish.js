@@ -76,7 +76,7 @@ const data = new SlashCommandBuilder()
         option
           .setName('time')
           .setDescription(
-            'How much time they have to type in seconds (120s default)'
+            'How much time they have to type in seconds (150s default)'
           )
       )
   );
@@ -326,7 +326,7 @@ const execute = async (interaction) => {
   } else if (interaction.options.getSubcommand() == 'extreme') {
     await interaction.deferReply({ ephemeral: true });
     const target = interaction.options.getMember('target');
-    const timeInSeconds = interaction.options.getInteger('time') ?? 120;
+    const timeInSeconds = interaction.options.getInteger('time') ?? 150;
     await extremePunish(
       interaction.channel,
       target,

@@ -17,7 +17,7 @@ module.exports = {
           message.channel,
           message.member,
           punishDuration,
-          120
+          150
         );
       }
     }
