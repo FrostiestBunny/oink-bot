@@ -1,4 +1,5 @@
 const { SlashCommandBuilder } = require('discord.js');
+const { chooseWithProbabilities } = require('../../randomUtil.js');
 
 const data = new SlashCommandBuilder()
   .setName('gomenasorry')
@@ -11,7 +12,11 @@ const execute = async (interaction) => {
     'sowwy Commyandew, I am simpwy too stupid of a degenyewate t-to undewstand youw shawp wits and amazing tawents!!11',
   ];
 
-  const chosen = gomenasorry[Math.floor(Math.random() * gomenasorry.length)];
+  const chosen = chooseWithProbabilities(gomenasorry, [
+    [1, 70],
+    [71, 90],
+    [91, 100],
+  ]);
 
   await interaction.reply(chosen);
 };
