@@ -7,6 +7,7 @@ const {
   ActionRow,
   ComponentType,
 } = require('discord.js');
+const { chooseWithProbabilities } = require('../../randomUtil.js');
 
 const data = new SlashCommandBuilder()
   .setName('punish')
@@ -82,8 +83,27 @@ const data = new SlashCommandBuilder()
   );
 
 const extremePunish = async (channel, target, duration, timeInSeconds) => {
-  const gomen =
-    'Gomenasorry ojousama supreme commander cult leader hime princess nya nya';
+  const gomens = [
+    [
+      'Gomenasorry ojousama supreme commander cult leader hime princess nya nya',
+      'use the buttons below to type out the full gomenasorry message. Good luck! <:nyaSalute:1251618350736478270>',
+    ],
+    [
+      'Gomenyasorry ojousama supreme commyander cult leader himye princyess nya nya',
+      'use the buttons below to type out the full gome*NYA*sorry message. This is a rare variant! Good luck! <:nyaSalute:1251618350736478270>',
+    ],
+    [
+      'sowwy Commyandew, I am simpwy too stupid of a degenyewate t-to undewstand youw shawp wits and amazing tawents!!11',
+      'use the buttons below to type out the UWUfied gomenasorry message. This is an ultra rare variant! Good luck! <:nyaSalute:1251618350736478270>',
+    ],
+  ];
+
+  const choice = chooseWithProbabilities(gomens, [
+    [1, 70],
+    [71, 90],
+    [91, 100],
+  ]);
+  const [gomen, displayText] = choice;
 
   let letters = gomen.split('');
   letters = [...new Set(letters)];
@@ -112,8 +132,10 @@ const extremePunish = async (channel, target, duration, timeInSeconds) => {
 
   let secondsLeft = timeInSeconds;
 
+  let text = `Hey, ${target}, ${displayText}\nTime left: ${secondsLeft} seconds\n`;
+
   const response = await channel.send({
-    content: `Hey, ${target} use the buttons to type out the full gomenasorry message. Good luck! <:nyaSalute:1251618350736478270>\nTime left: ${secondsLeft} seconds\n`,
+    content: text,
     components: [...rows],
   });
 
@@ -125,7 +147,6 @@ const extremePunish = async (channel, target, duration, timeInSeconds) => {
     filter: filter,
   });
 
-  let text = `Hey, ${target} use the buttons to type out the full gomenasorry message. Good luck! <:nyaSalute:1251618350736478270>\nTime left: ${secondsLeft} seconds\n`;
   let gomenText = '';
 
   const updateTime = 5;
