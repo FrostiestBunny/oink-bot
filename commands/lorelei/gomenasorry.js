@@ -5,9 +5,15 @@ const data = new SlashCommandBuilder()
   .setDescription('Apologizes properly.');
 
 const execute = async (interaction) => {
-  await interaction.reply(
-    'Gomenasorry ojousama supreme commander cult leader hime princess nya nya'
-  );
+  const gomenasorry = [
+    'Gomenasorry ojousama supreme commander cult leader hime princess nya nya',
+    'Gomenyasorry ojousama supreme commyander cult leader himye princyess nya nya',
+    'sowwy Commyandew, I am simpwy too stupid of a degenyewate t-to undewstand youw shawp wits and amazing tawents!!11',
+  ];
+
+  const chosen = gomenasorry[Math.floor(Math.random() * gomenasorry.length)];
+
+  await interaction.reply(chosen);
 };
 
 module.exports = { data, execute };
