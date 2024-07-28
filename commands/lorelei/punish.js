@@ -173,8 +173,6 @@ const extremePunish = async (channel, target, duration, timeInSeconds) => {
     await i.update(text);
 
     if (!gomen.startsWith(gomenText)) {
-      clearTimeout(timeoutId);
-      clearInterval(intervalId);
       collector.stop('failure');
     }
 
@@ -191,6 +189,8 @@ const extremePunish = async (channel, target, duration, timeInSeconds) => {
   });
 
   collector.on('end', async (collected, reason) => {
+    clearTimeout(timeoutId);
+    clearInterval(intervalId);
     if (reason !== 'success') {
       if (reason === 'failure') {
         await response.reply(`You messed up, ${target}, delete yourself.`);
