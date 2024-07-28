@@ -137,7 +137,7 @@ const extremePunish = async (channel, target, duration, timeInSeconds) => {
 
   let embed = new EmbedBuilder()
     .setTitle('Extreme Punish')
-    .setColor('Blurple')
+    .setColor('#ff6da0')
     .setDescription(text)
     .setTimestamp();
 
