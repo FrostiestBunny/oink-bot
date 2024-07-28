@@ -6,6 +6,7 @@ const {
   ActionRowBuilder,
   ActionRow,
   ComponentType,
+  EmbedBuilder,
 } = require('discord.js');
 const { chooseWithProbabilities } = require('../../randomUtil.js');
 
@@ -134,8 +135,15 @@ const extremePunish = async (channel, target, duration, timeInSeconds) => {
 
   let text = `Hey, ${target}, ${displayText}\nTime left: ${secondsLeft} seconds\n`;
 
+  let embed = new EmbedBuilder()
+    .setTitle('Extreme Punish')
+    .setColor('Blurple')
+    .setDescription(text)
+    .setTimestamp();
+
   const response = await channel.send({
-    content: text,
+    content: `${target}`,
+    embeds: [embed],
     components: [...rows],
   });
 
@@ -154,8 +162,9 @@ const extremePunish = async (channel, target, duration, timeInSeconds) => {
   const intervalId = setInterval(async () => {
     secondsLeft -= updateTime;
     text = text.replace(/(\d+)(?= seconds)/, `${secondsLeft}`);
+    embed.setDescription(text);
     try {
-      await response.edit(text);
+      await response.edit({ embeds: [embed] });
     } catch (err) {
       console.error(err);
       return;
@@ -170,7 +179,8 @@ const extremePunish = async (channel, target, duration, timeInSeconds) => {
   collector.on('collect', async (i) => {
     gomenText += i.customId === 'space' ? ' ' : i.customId;
     text += i.customId === 'space' ? ' ' : i.customId;
-    await i.update(text);
+    embed.setDescription(text);
+    await i.update({ embeds: [embed] });
 
     if (!gomen.startsWith(gomenText)) {
       collector.stop('failure');
