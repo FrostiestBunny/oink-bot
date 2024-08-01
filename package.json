@@ -9,6 +9,7 @@
   "author": "frost_bunny",
   "license": "ISC",
   "dependencies": {
+    "canvas-gif": "^1.0.3",
     "discord.js": "^14.15.3",
     "dotenv": "^16.4.5",
     "prompt-sync": "^4.2.0",
