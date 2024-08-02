@@ -38,7 +38,11 @@ const execute = async (interaction) => {
     const ctx = canvas.getContext('2d');
     ctx.drawImage(avatar, 0, 0, avatar.width, avatar.height);
     context.globalCompositeOperation = 'destination-over';
-    context.drawImage(canvas, 0, 0, canvas.width, canvas.height);
+    if (currentFrame % 3 == 0) {
+      context.drawImage(canvas, 0, 20, canvas.width, canvas.height + 20);
+    } else {
+      context.drawImage(canvas, 0, 0, canvas.width, canvas.height);
+    }
   };
 
   canvasGif(path.join(__dirname, 'headpat.gif'), callBack, options)
