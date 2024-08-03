@@ -8,7 +8,10 @@ const data = new SlashCommandBuilder()
   .setName('headpat')
   .setDescription('Headpat a deserving person')
   .addUserOption((option) =>
-    option.setName('target').setDescription('The user to headpat')
+    option
+      .setName('target')
+      .setDescription('The user to headpat')
+      .setRequired(true)
   );
 
 const execute = async (interaction) => {
@@ -48,7 +51,10 @@ const execute = async (interaction) => {
   canvasGif(path.join(__dirname, 'headpat.gif'), callBack, options)
     .then((buffer) => {
       const attachment = new AttachmentBuilder(buffer, { name: 'headpat.gif' });
-      return interaction.followUp({ files: [attachment] });
+      return interaction.followUp({
+        content: `${interaction.member} is headpatting ${target}!`,
+        files: [attachment],
+      });
     })
     .catch((error) => {
       console.error(error);
