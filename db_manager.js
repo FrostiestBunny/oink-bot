@@ -12,7 +12,7 @@ const sequelize = new Sequelize('database', 'admin', DB_PASS, {
   storage: 'database.sqlite',
 });
 
-// CREATE TABLE |discord_id|discord_name|twitch_name|oinks|
+// CREATE TABLE |discord_id|discord_name|twitch_name|
 const Twitch = sequelize.define('twitch_name', {
   discord_id: {
     type: Sequelize.STRING,
@@ -20,13 +20,7 @@ const Twitch = sequelize.define('twitch_name', {
   },
   discord_name: Sequelize.STRING,
   twitch_name: Sequelize.STRING,
-  oinks: {
-    type: Sequelize.INTEGER,
-    defaultValue: 0,
-  },
 });
-
-Twitch.sync();
 
 console.log('Hi, add some users');
 
@@ -62,6 +56,7 @@ let answer;
 let text;
 
 (async () => {
+  await Twitch.sync();
   while (cont) {
     discord_id = prompt('Discord id: ');
     discord_name = prompt('Discord name: ');

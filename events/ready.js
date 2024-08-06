@@ -3,9 +3,9 @@ const { Events } = require('discord.js');
 module.exports = {
   name: Events.ClientReady,
   once: true,
-  execute(client) {
-    client.twitchDB.sync();
-    client.promiseDB.sync();
+  async execute(client) {
+    await client.twitchDB.sync();
+    await client.promiseDB.sync();
     console.log(`Ready! Logged in as ${client.user.tag}`);
   },
 };
