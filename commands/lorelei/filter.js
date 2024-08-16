@@ -24,6 +24,17 @@ const data = new SlashCommandBuilder()
           )
           .setRequired(true)
       )
+  )
+  .addSubcommand((subcommand) =>
+    subcommand
+      .setName('delete')
+      .setDescription('Delete a banned word filter.')
+      .addStringOption((option) =>
+        option
+          .setName('name')
+          .setDescription('Name of the filter')
+          .setRequired(true)
+      )
   );
 
 const execute = async (interaction) => {
@@ -39,7 +50,9 @@ const execute = async (interaction) => {
         word: name,
       });
 
-      interaction.client.bannedWords.push(new RegExp(added.regex, 'i'));
+      interaction.client.bannedWords.push({
+        [added.word]: new RegExp(added.regex, 'i'),
+      });
 
       await interaction.followUp(
         `Added new rule for ${added.word}: ${added.regex}`
@@ -53,6 +66,27 @@ const execute = async (interaction) => {
           'Something went wrong <:nyaSad:1250106743514599435>'
         );
       }
+    }
+  } else if (interaction.options.getSubcommand() === 'delete') {
+    try {
+      const name = interaction.options.getString('name');
+
+      const rowCount = await interaction.client.bannedTable.destroy({
+        where: { word: name },
+      });
+
+      if (!rowCount) return interaction.followUp('No such filter found.');
+
+      interaction.client.bannedWords = interaction.client.bannedWords.filter(
+        (e) => Object.keys(e)[0] != name
+      );
+
+      await interaction.followUp(`Deleted rule for ${name}.`);
+    } catch (error) {
+      console.error(error);
+      return interaction.followUp(
+        'Something went wrong <:nyaSad:1250106743514599435>'
+      );
     }
   }
 };
