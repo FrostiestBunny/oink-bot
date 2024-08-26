@@ -204,6 +204,22 @@ const extremePunish = async (channel, target, duration, timeInSeconds) => {
     if (reason !== 'success') {
       if (reason === 'failure') {
         await response.reply(`You messed up, ${target}, delete yourself.`);
+        if (secondsLeft > timeInSeconds - 30) {
+          // loser role
+          try {
+            await target.roles.add('1277427927734292561');
+
+            setTimeout(async () => {
+              try {
+                await target.roles.remove('1277427927734292561');
+              } catch (e) {
+                console.log(e);
+              }
+            }, 60 * 60 * 1000);
+          } catch (e) {
+            console.log(e);
+          }
+        }
       } else {
         await response.reply(`You were too late, ${target}, delete yourself.`);
       }
