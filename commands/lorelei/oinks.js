@@ -1,6 +1,7 @@
 require('dotenv').config();
 const { SlashCommandBuilder } = require('discord.js');
 const { SE_ENDPOINTS } = require('../../se-endpoints');
+const twitchManager = require('../../twitchManager');
 
 const CHANNEL_ID = process.env.CHANNEL_ID;
 
@@ -8,56 +9,43 @@ const data = new SlashCommandBuilder()
   .setName('oinks')
   .setDescription('Checks your oinks')
   .addStringOption((option) =>
-    option
-      .setName('name')
-      .setDescription('Your twitch username')
-      .setRequired(true)
+    option.setName('name').setDescription('Your twitch username')
   );
 
 const execute = async (interaction) => {
   await interaction.deferReply();
-  const name = interaction.options.getString('name').toLowerCase();
+  let name = interaction.options.getString('name');
+  if (!name) {
+    name = twitchManager.getTwitchUsername(interaction.member.id);
+  }
 
-  const options = {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  };
   let total;
-  let url = SE_ENDPOINTS.POINTS + `${CHANNEL_ID}/top`;
   try {
-    let response = await fetch(url, options);
-    response = await response.json();
+    const response = await twitchManager.getTopPoints();
     total = response._total;
   } catch (err) {
     console.error(err);
     return;
   }
 
-  url = SE_ENDPOINTS.POINTS + `${CHANNEL_ID}/${name}`;
-
-  fetch(url, options)
-    .then((response) => response.json())
-    .then(async (response) => {
-      if (response.error) {
-        await interaction.followUp(
-          'No such user <:nyaSad:1250106743514599435>\nCheck if you entered your Twitch name correctly!'
-        );
-      } else {
-        const oinks = response.points;
-        const rank = response.rank;
-        await interaction.followUp(
-          `You have ${oinks} oinks! Your rank is ${rank}/${total} on the leaderboard.`
-        );
-      }
-    })
-    .catch(async (err) => {
+  try {
+    const response = await twitchManager.getUserPoints(name);
+    if (response.error) {
       await interaction.followUp(
-        'Something went wrong <:nyaSad:1250106743514599435>'
+        'No such user <:nyaSad:1250106743514599435>\nCheck if you entered your Twitch name correctly!'
       );
-      console.error(err);
-    });
+    } else {
+      const [oinks, rank] = [response.points, response.rank];
+      await interaction.followUp(
+        `You have ${oinks} oinks! Your rank is ${rank}/${total} on the leaderboard.`
+      );
+    }
+  } catch (err) {
+    await interaction.followUp(
+      'Something went wrong <:nyaSad:1250106743514599435>'
+    );
+    console.error(err);
+  }
 };
 
 module.exports = { data, execute };
