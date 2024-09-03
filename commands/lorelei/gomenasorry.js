@@ -1,6 +1,8 @@
+//gomenasorry message commands
 const { SlashCommandBuilder } = require('discord.js');
 const { chooseWithProbabilities } = require('../../randomUtil.js');
 
+//name of slash command, description, &  variants
 const data = new SlashCommandBuilder()
   .setName('gomenasorry')
   .setDescription('Apologizes properly.')
@@ -16,6 +18,7 @@ const data = new SlashCommandBuilder()
       )
   );
 
+//gomenasorry variant messages
 const execute = async (interaction) => {
   const gomenasorry = [
     'Gomenasorry ojousama supreme commander cult leader hime princess nya nya',
@@ -23,6 +26,7 @@ const execute = async (interaction) => {
     'sowwy Commyandew, I am simpwy too stupid of a degenyewate t-to undewstand youw shawp wits and amazing tawents!!11',
   ];
 
+  //selects variant message based on user input
   const variant = interaction.options.getString('variant');
 
   let chosen;

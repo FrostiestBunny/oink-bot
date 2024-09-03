@@ -1,3 +1,4 @@
+//punish related commands
 const {
   SlashCommandBuilder,
   PermissionFlagsBits,
@@ -10,6 +11,7 @@ const {
 } = require('discord.js');
 const { chooseWithProbabilities } = require('../../randomUtil.js');
 
+//name of slash commands, subcommands, & descriptions
 const data = new SlashCommandBuilder()
   .setName('punish')
   .setDescription('Force a disobedient astronyaut to apologize properly.')
@@ -83,6 +85,7 @@ const data = new SlashCommandBuilder()
       )
   );
 
+//extreme punish with variants for the message
 const extremePunish = async (channel, target, duration, timeInSeconds) => {
   const gomens = [
     [
@@ -99,6 +102,7 @@ const extremePunish = async (channel, target, duration, timeInSeconds) => {
     ],
   ];
 
+  //chooses the variant based on chosen probability
   const choice = chooseWithProbabilities(gomens, [
     [1, 70],
     [71, 90],
@@ -110,6 +114,7 @@ const extremePunish = async (channel, target, duration, timeInSeconds) => {
   letters = [...new Set(letters)];
   const buttons = [];
 
+  //create interactive buttons
   for (let i = 0; i < letters.length; i++) {
     let letter = letters[i];
 
@@ -124,6 +129,7 @@ const extremePunish = async (channel, target, duration, timeInSeconds) => {
 
   const rows = [];
 
+  //set buttons size
   const chunkSize = 5;
   for (let i = 0; i < buttons.length; i += chunkSize) {
     const chunk = buttons.slice(i, i + chunkSize);
@@ -132,9 +138,11 @@ const extremePunish = async (channel, target, duration, timeInSeconds) => {
   }
 
   let secondsLeft = timeInSeconds;
-
+  
+  //display time left
   let text = `Hey, ${target}, ${displayText}\nTime left: ${secondsLeft} seconds\n`;
 
+  //embed interaction
   let embed = new EmbedBuilder()
     .setTitle('Extreme Punish')
     .setColor('#ff6da0')
@@ -159,6 +167,7 @@ const extremePunish = async (channel, target, duration, timeInSeconds) => {
 
   const updateTime = 5;
 
+  //update to reflect changes
   const intervalId = setInterval(async () => {
     secondsLeft -= updateTime;
     text = text.replace(/(\d+)(?= seconds)/, `${secondsLeft}`);
@@ -176,16 +185,19 @@ const extremePunish = async (channel, target, duration, timeInSeconds) => {
     (secondsLeft - 1) * 1000
   );
 
+  //add progress to message
   collector.on('collect', async (i) => {
     gomenText += i.customId === 'space' ? ' ' : i.customId;
     text += i.customId === 'space' ? ' ' : i.customId;
     embed.setDescription(text);
     await i.update({ embeds: [embed] });
 
+    //stop with failure
     if (!gomen.startsWith(gomenText)) {
       collector.stop('failure');
     }
 
+    //success message
     if (gomenText === gomen) {
       collector.stop('success');
       await channel.send(
@@ -198,6 +210,8 @@ const extremePunish = async (channel, target, duration, timeInSeconds) => {
     // when an interaction is ignored
   });
 
+  //this may need changed as loser role no longer exists -Jim
+  //it would have added the loser role to the target upon failure
   collector.on('end', async (collected, reason) => {
     clearTimeout(timeoutId);
     clearInterval(intervalId);
@@ -233,9 +247,11 @@ const extremePunish = async (channel, target, duration, timeInSeconds) => {
   });
 };
 
+//cath should maybe be removed as a constant target -Jim
 const execute = async (interaction) => {
   const cathId = '133956553505112064';
 
+  //punish many logic
   const gomen =
     'Gomenasorry ojousama supreme commander cult leader hime princess nya nya';
   const timeout_duration =
@@ -264,7 +280,9 @@ const execute = async (interaction) => {
     // always add cath to the target list as per commander's instructions
     const cath = await interaction.guild.members.fetch(cathId);
     validTargets.push(cath);
+    //may be time to remove Cath as a permanent target - Jim
 
+    //alert user of the punish command so they interact
     punishMessage += validTargets.join(', ');
     punishMessage +=
       "! It's time for you to apologize!\n\nYou have one minute to send a proper apology in this channel.\n\nAny other message but the full gomenasorry text will get you timed out!";
@@ -289,6 +307,7 @@ const execute = async (interaction) => {
         time: 60_000,
         errors: ['time'],
       })
+      //success/failure logic
       .then(async (collected) => {
         collected.each(async (msg) => {
           repliedMap[msg.member.id] = true;
@@ -324,6 +343,7 @@ const execute = async (interaction) => {
     await interaction.deferReply({ ephemeral: true });
     const target = interaction.options.getMember('target');
 
+    //check if can timeout user
     if (!target.manageable || !target.moderatable) {
       await interaction.editReply(
         "I don't have permission to timeout this user <:nyaSad:1250106743514599435>"
@@ -331,6 +351,7 @@ const execute = async (interaction) => {
       return;
     }
 
+    //tell user about the punish
     await interaction.channel.send(
       `Hey, <@${target.id}>! It's time for you to apologize!\n\nYou have one minute to send a proper apology in this channel.\n\nAny other message but the full gomenasorry text will get you timed out!`
     );
@@ -338,6 +359,7 @@ const execute = async (interaction) => {
     const filter = (m) => m.member.id === target.id;
     let replied = false;
 
+    //message for when punish command finishes
     interaction.channel
       .awaitMessages({ filter, max: 1, time: 60_000, errors: ['time'] })
       .then(async (collected) => {
@@ -356,6 +378,7 @@ const execute = async (interaction) => {
           }
         }
       })
+      //failed message & timeout user
       .catch(async (collected) => {
         if (!replied) {
           await interaction.channel.send(
@@ -368,7 +391,8 @@ const execute = async (interaction) => {
           }
         }
       });
-
+    
+    //reply message when command starts
     await interaction.editReply("It's done, boss.");
   } else if (interaction.options.getSubcommand() == 'extreme') {
     await interaction.deferReply({ ephemeral: true });

@@ -1,9 +1,11 @@
+//headpat message command
 const { request } = require('undici');
 const canvasGif = require('canvas-gif');
 const Canvas = require('canvas');
 const path = require('node:path');
 const { SlashCommandBuilder, AttachmentBuilder } = require('discord.js');
 
+//name of slash command & description
 const data = new SlashCommandBuilder()
   .setName('headpat')
   .setDescription('Headpat a deserving person')
@@ -14,6 +16,7 @@ const data = new SlashCommandBuilder()
       .setRequired(true)
   );
 
+//adds user's profile pic to canvas
 const execute = async (interaction) => {
   await interaction.deferReply();
   const target = interaction.options.getMember('target');
@@ -26,10 +29,12 @@ const execute = async (interaction) => {
     quality: 100,
   };
 
+  //gets user's profile pic
   const avatar = await Canvas.loadImage(
     target.displayAvatarURL({ extension: 'png' })
   );
 
+  //creates new gif of user's avatar getting a headpat
   const callBack = async (
     context,
     width,
@@ -48,6 +53,7 @@ const execute = async (interaction) => {
     }
   };
 
+  //sends new headpat gif and message
   canvasGif(path.join(__dirname, 'headpat.gif'), callBack, options)
     .then((buffer) => {
       const attachment = new AttachmentBuilder(buffer, { name: 'headpat.gif' });
