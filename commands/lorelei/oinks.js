@@ -1,3 +1,4 @@
+//oinks command, used to check oinks from Lorelei's twitch
 require('dotenv').config();
 const { SlashCommandBuilder } = require('discord.js');
 const { SE_ENDPOINTS } = require('../../se-endpoints');
@@ -5,6 +6,7 @@ const twitchManager = require('../../twitchManager');
 
 const CHANNEL_ID = process.env.CHANNEL_ID;
 
+//name of slash command & description
 const data = new SlashCommandBuilder()
   .setName('oinks')
   .setDescription('Checks your oinks')
@@ -12,6 +14,7 @@ const data = new SlashCommandBuilder()
     option.setName('name').setDescription('Your twitch username')
   );
 
+//get twitch name
 const execute = async (interaction) => {
   await interaction.deferReply();
   let name = interaction.options.getString('name');
@@ -19,6 +22,7 @@ const execute = async (interaction) => {
     name = twitchManager.getTwitchUsername(interaction.member.id);
   }
 
+  //get twitch points of user
   let total;
   try {
     const response = await twitchManager.getTopPoints();
@@ -28,6 +32,7 @@ const execute = async (interaction) => {
     return;
   }
 
+  //print message of user's points
   try {
     const response = await twitchManager.getUserPoints(name);
     if (response.error) {

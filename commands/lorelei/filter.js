@@ -1,5 +1,7 @@
+//add word/phrase to oinkbot's banned word list
 const { SlashCommandBuilder, PermissionFlagsBits } = require('discord.js');
 
+//name of slash commands, subcommands, & descriptions
 const data = new SlashCommandBuilder()
   .setName('filter')
   .setDescription('Filter bad words from the server')
@@ -37,6 +39,7 @@ const data = new SlashCommandBuilder()
       )
   );
 
+//try catch block for subcommands
 const execute = async (interaction) => {
   await interaction.deferReply({ ephemeral: true });
 
@@ -44,7 +47,8 @@ const execute = async (interaction) => {
     try {
       const name = interaction.options.getString('name');
       const re = interaction.options.getString('regex');
-
+      
+      //add new word & regex to banned word list
       const added = await interaction.client.bannedTable.create({
         regex: re,
         word: name,
@@ -57,6 +61,7 @@ const execute = async (interaction) => {
       await interaction.followUp(
         `Added new rule for ${added.word}: ${added.regex}`
       );
+      //catch if not a unique word/phrase
     } catch (error) {
       if (error.name === 'SequelizeUniqueConstraintError') {
         return interaction.followUp('Regex already exists.');
@@ -71,6 +76,7 @@ const execute = async (interaction) => {
     try {
       const name = interaction.options.getString('name');
 
+      //delete word/phrase from banned word list
       const rowCount = await interaction.client.bannedTable.destroy({
         where: { word: name },
       });
@@ -80,7 +86,7 @@ const execute = async (interaction) => {
       interaction.client.bannedWords = interaction.client.bannedWords.filter(
         (e) => Object.keys(e)[0] != name
       );
-
+      //print deleted word rule
       await interaction.followUp(`Deleted rule for ${name}.`);
     } catch (error) {
       console.error(error);
