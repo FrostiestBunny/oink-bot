@@ -10,9 +10,10 @@
   "license": "ISC",
   "dependencies": {
     "canvas-gif": "^1.0.3",
-    "discord.js": "^14.15.3",
+    "discord.js": "^14.16.1",
     "dotenv": "^16.4.5",
     "prompt-sync": "^4.2.0",
+    "require": "^0.4.4",
     "sequelize": "^6.37.3",
     "sqlite3": "^5.1.7",
     "yargs": "^17.7.2"
