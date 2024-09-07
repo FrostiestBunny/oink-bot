@@ -5,27 +5,33 @@ const prompt = require('prompt-sync')({sigint: true});
 //name of slash command & description
 const data = new SlashCommandBuilder()
   .setName('coinflip')
-  .setDescription('Flip a coin for heads or tails');
-
-//get & set player name as username (this should be discord integrated)
-const playerName = prompt("Please enter your name:");
-//get player bet, this also may be good as embedded buttons (they are cool) - maybe some gif flair or something too
-const playerBet = prompt("Bet (h)eads or (t)ails?");
+  .setDescription('Flip a coin for heads or tails')
+  .addStringOption((option) =>
+    option
+      .setName('playerbet')
+      .setDescription('Heads or Tails?')
+      .setRequired(true)
+      .addChoices(
+        { name: 'heads', value: 'h' },
+        { name: 'tails', value: 't' }
+      )
+  );
 
 //flip the coin
-const coinFlip = () => {
+const execute = async (interaction) => {
+    //set playername as username & choice as playerbet
+    const playerName = interaction.member.displayName
+    const playerBet = interaction.options.getString('playerbet');
+    //logic to determine if heads or tails
     const randomNum = Math.random();
     result = randomNum < 0.5 ? 'Heads' : 'Tails';
 
     //check result against bet
     if ((playerBet === 'h' && result === 'Heads') || (playerBet === 't' && result === 'Tails')) {
-        console.log(`${playerName} bet ${playerBet === 'h' ? 'Heads' : 'Tails'} and won! The coin landed on ${result}.`);
+        await interaction.reply(`${playerName} bet ${playerBet === 'h' ? 'Heads' : 'Tails'} and won! The coin landed on ${result}.`);
     } else {
-        console.log(`${playerName} bet ${playerBet === 'h' ? 'Heads' : 'Tails'} and lost. The coin landed on ${result}.`);
+        await interaction.reply(`${playerName} bet ${playerBet === 'h' ? 'Heads' : 'Tails'} and lost. The coin landed on ${result}.`);
     }
-    return result;
 };
 
 module.exports = { data, execute };
-//run main method
-coinFlip();
