@@ -1,3 +1,3 @@
 # This is the BEST worst bot ever made.
 ## Always gamble.
-## Eat space pigs.
+## Eat space pigs. You will die.
