@@ -4,6 +4,8 @@
   "description": "A Discord bot for a certain space cat.",
   "main": "index.js",
   "scripts": {
+    "deploy": "node deploy-commands.js",
+    "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "frost_bunny",
