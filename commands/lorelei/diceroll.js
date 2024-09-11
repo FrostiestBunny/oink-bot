@@ -48,7 +48,7 @@ const execute = async (interaction) => {
       return;
     }
 
-    //collect results
+    //collect results in array
     let results = [];
     for (let i = 0; i < quantity; i++) {
       results.push(rollDie(sides));
