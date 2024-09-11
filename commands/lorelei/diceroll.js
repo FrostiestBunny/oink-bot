@@ -8,20 +8,20 @@ const data = new SlashCommandBuilder()
   .addIntegerOption((option) =>
     option
       .setName('sides')
-      .setDescription('Number of sides on the die')
+      .setDescription('Number of sides on the die (maximum 100)')
       .setRequired(true)
   )
   .addIntegerOption((option) =>
     option
       .setName('quantity')
-      .setDescription('Number of dice to roll')
+      .setDescription('Number of dice to roll (maximum 100)')
       .setRequired(true)
   );
 
 //roll the dice
 const execute = async (interaction) => {
   try {
-    //get username as playername
+    //set playername as username
     const playerName = interaction.member.displayName;
     //set variables
     const sides = interaction.options.getInteger('sides');
@@ -32,10 +32,18 @@ const execute = async (interaction) => {
       return Math.floor(Math.random() * sides) + 1;
     };
 
-    //check for valid numbers
-    if (sides <= 0 || quantity <= 0) {
+    //check for valid numbers, must be at least 3 sided with max of 100 sides
+    if (sides <= 3 || sides > 100) {
       await interaction.reply(
-        'Please enter valid numbers for sides and quantity greater than 0.'
+        'Please enter a valid number of sides between 3 and 100! <:nyaAngry:1251302942456414218>'
+      );
+      return;
+    }
+
+    //must be more than 0 & less than 100 dice
+    if (quantity <= 0 || quantity > 100) {
+      await interaction.reply(
+        'Please enter a valid number of dice between 1 and 100! <:nyaAngry:1251302942456414218>'
       );
       return;
     }
@@ -60,8 +68,8 @@ const execute = async (interaction) => {
     await interaction.reply({ embeds: [embed] });
   } catch (error) {
     console.error(error);
-    return interaction.followUp(
-      'Something went wrong <:nyaSad:1250106743514599435>'
+    await interaction.reply(
+      'Something went wrong while rolling the dice. <:nyaSad:1250106743514599435>'
     );
   }
 };
