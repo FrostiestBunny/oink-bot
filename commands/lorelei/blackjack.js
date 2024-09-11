@@ -115,14 +115,12 @@ const execute = async (interaction) => {
     });
 
   //send embed of blackjack game
-  const message = await interaction.channel.send({
+  const message = await interaction.followUp({
     embeds: [embed],
     components: [row],
   });
 
-  const filter = (i) =>
-    i.customId === 'hit' ||
-    (i.customId === 'stand' && i.user.id === interaction.member.id);
+  const interactionFilter = (i) => i.user.id === interaction.member.id;
 
   //repeat until game is over
   while (!gameOver) {
@@ -139,32 +137,53 @@ const execute = async (interaction) => {
         value: `${handToString([oinkHand[0]])} and [Hidden]`,
       });
 
+    await message.edit({ embeds: [embed] });
+
     //check for blackjack
     if (handValue(playerHand) === 21) {
-      await interaction.channel.send(`Blackjack! ${playerName} wins!`);
+      await interaction.followUp(`Blackjack! ${playerName} wins!`);
       gameOver = true;
       continue;
     }
 
-    await message.edit({ embeds: [embed] });
-
     //hit or stand
     if (!playerStand) {
-      let action = prompt('Do you want to (h)it or (s)tand?');
+      let action;
+      try {
+        action = await message.awaitMessageComponent({
+          filter: interactionFilter,
+          time: 120_000, // 2 minute time limit
+        });
+      } catch (e) {
+        // this happens when we don't receive an interaction within the time limit
+        await message.edit({ components: [] }); // removes the buttons
+        return interaction.followUp('Player fell asleep I guess.'); // exit command here
+      }
       //hit
-      if (action === 'h') {
+      if (action.customId === 'hit') {
         playerHand.push(deck.pop());
-        if (handValue(playerHand) > 21) {
-          console.log(
-            `${playerName}'s hand: ${handToString(
+        //TODO this is ugly, find a better way
+        embed = new EmbedBuilder()
+          .setColor('LuminousVividPink')
+          .setTitle('Blackjack Table')
+          .addFields({
+            name: `${playerName}'s hand:`,
+            value: `${handToString(playerHand)} (Value: ${handValue(
               playerHand
-            )} (Value: ${handValue(playerHand)})`
-          );
-          console.log(`Bust! ${playerName} loses.`);
+            )})`,
+          })
+          .addFields({
+            name: `${dealerName}'s hand:`,
+            value: `${handToString([oinkHand[0]])} and [Hidden]`,
+          });
+        await action.update({ embeds: [embed] });
+        if (handValue(playerHand) > 21) {
+          await interaction.followUp(`Bust! ${playerName} loses.`);
           gameOver = true;
         }
         //stand
-      } else if (action === 's') {
+      } else if (action.customId === 'stand') {
+        await action.update({ components: [] });
         playerStand = true;
       }
     } else {
@@ -172,24 +191,32 @@ const execute = async (interaction) => {
       while (handValue(oinkHand) < 17) {
         oinkHand.push(deck.pop());
       }
-      embed.fields[1] = {
-        name: `${dealerName}'s hand:`,
-        value: `${handToString(dealerHand)} (Value: ${handValue(dealerHand)})`,
-      };
+      //TODO this is ugly, find a better way
+      embed = new EmbedBuilder()
+        .setColor('LuminousVividPink')
+        .setTitle('Blackjack Table')
+        .addFields({
+          name: `${playerName}'s hand:`,
+          value: `${handToString(playerHand)} (Value: ${handValue(
+            playerHand
+          )})`,
+        })
+        .addFields({
+          name: `${dealerName}'s hand:`,
+          value: `${handToString(oinkHand)} (Value: ${handValue(oinkHand)})`,
+        });
       await message.edit({ embeds: [embed] });
 
       if (handValue(oinkHand) > 21) {
-        console.log(`${dealerName} busts! ${playerName} wins!`);
+        await interaction.followUp(`${dealerName} busts! ${playerName} wins!`);
       } else if (handValue(oinkHand) >= handValue(playerHand)) {
-        console.log(`${dealerName} wins!`);
+        await interaction.followUp(`${dealerName} wins!`);
       } else {
-        console.log(`${playerName} wins!`);
+        await interaction.followUp(`${playerName} wins!`);
       }
       gameOver = true;
     }
   }
-  //finish output
-  await interaction.followUp('Game over.');
 };
 
 //toString for displaying card hands
