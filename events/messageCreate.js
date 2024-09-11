@@ -1,11 +1,20 @@
-const { Events } = require('discord.js');
+const { Events, GuildMember } = require('discord.js');
 const { extremePunish } = require('../commands/lorelei/punish.js');
 
+/**
+ * @typedef Message
+ * @type {object}
+ * @property {GuildMember} member
+ */
 module.exports = {
   name: Events.MessageCreate,
+  /**
+   * @param {Message} message 
+   */
   async execute(message) {
     // 60s
-    const punishDuration = 60 * 1000;
+    const PUNISH_DURATION = 60 * 1000;
+    if (message.member.id == process.env.CLIENT_ID) return;
 
     for (const element of message.client.bannedWords) {
       const word = Object.values(element)[0];
@@ -13,7 +22,7 @@ module.exports = {
         await extremePunish(
           message.channel,
           message.member,
-          punishDuration,
+          PUNISH_DURATION,
           150
         );
       }
