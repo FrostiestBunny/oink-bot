@@ -115,14 +115,12 @@ const execute = async (interaction) => {
     });
 
   //send embed of blackjack game
-  const message = await interaction.channel.send({
+  const message = await interaction.followUp({
     embeds: [embed],
     components: [row],
   });
 
-  const interactionFilter = (i) =>
-    i.customId === 'hit' ||
-    (i.customId === 'stand' && i.user.id === interaction.member.id);
+  const interactionFilter = (i) => i.user.id === interaction.member.id;
 
   //repeat until game is over
   while (!gameOver) {
@@ -143,7 +141,7 @@ const execute = async (interaction) => {
 
     //check for blackjack
     if (handValue(playerHand) === 21) {
-      await interaction.channel.send(`Blackjack! ${playerName} wins!`);
+      await interaction.followUp(`Blackjack! ${playerName} wins!`);
       gameOver = true;
       continue;
     }
@@ -219,9 +217,6 @@ const execute = async (interaction) => {
       gameOver = true;
     }
   }
-  //finish output
-  //TODO probably don't actually need this
-  await interaction.followUp('Game over.');
 };
 
 //toString for displaying card hands
