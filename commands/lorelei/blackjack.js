@@ -112,7 +112,8 @@ const execute = async (interaction) => {
     .addFields({
       name: `${dealerName}'s hand:`,
       value: `${handToString([oinkHand[0]])} and [Hidden]`,
-    });
+    })
+    .setThumbnail(interaction.member.displayAvatarURL());
 
   //send embed of blackjack game
   const message = await interaction.followUp({
@@ -135,7 +136,8 @@ const execute = async (interaction) => {
       .addFields({
         name: `${dealerName}'s hand:`,
         value: `${handToString([oinkHand[0]])} and [Hidden]`,
-      });
+      })
+      .setThumbnail(interaction.member.displayAvatarURL());
 
     await message.edit({ embeds: [embed] });
 
@@ -175,7 +177,8 @@ const execute = async (interaction) => {
           .addFields({
             name: `${dealerName}'s hand:`,
             value: `${handToString([oinkHand[0]])} and [Hidden]`,
-          });
+          })
+          .setThumbnail(interaction.member.displayAvatarURL());
         await action.update({ embeds: [embed] });
         if (handValue(playerHand) > 21) {
           await interaction.followUp(`Bust! ${playerName} loses.`);
@@ -204,8 +207,9 @@ const execute = async (interaction) => {
         .addFields({
           name: `${dealerName}'s hand:`,
           value: `${handToString(oinkHand)} (Value: ${handValue(oinkHand)})`,
-        });
-      await message.edit({ embeds: [embed] });
+        })
+        .setThumbnail(interaction.member.displayAvatarURL());
+      await message.edit({ embeds: [embed], components: [] });
 
       if (handValue(oinkHand) > 21) {
         await interaction.followUp(`${dealerName} busts! ${playerName} wins!`);
