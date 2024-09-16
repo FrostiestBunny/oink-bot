@@ -7,79 +7,79 @@ const {
   ActionRowBuilder,
   ComponentType,
   EmbedBuilder,
-} = require("discord.js");
-const { chooseWithProbabilities } = require("../../randomUtil.js");
+} = require('discord.js');
+const { chooseWithProbabilities } = require('../../randomUtil.js');
 
 //name of slash commands, subcommands, & descriptions
 const data = new SlashCommandBuilder()
-  .setName("punish")
-  .setDescription("Force a disobedient astronyaut to apologize properly.")
+  .setName('punish')
+  .setDescription('Force a disobedient astronyaut to apologize properly.')
   .setDefaultMemberPermissions(PermissionFlagsBits.ModerateMembers)
   .addSubcommand((subcommand) =>
     subcommand
-      .setName("one")
-      .setDescription("Punish one person.")
+      .setName('one')
+      .setDescription('Punish one person.')
       .addUserOption((option) =>
         option
-          .setName("target")
-          .setDescription("The evildoer to punish")
+          .setName('target')
+          .setDescription('The evildoer to punish')
           .setRequired(true)
       )
       .addIntegerOption((option) =>
         option
-          .setName("duration")
-          .setDescription("Duration of time out in seconds (60s default)")
+          .setName('duration')
+          .setDescription('Duration of time out in seconds (60s default)')
       )
   )
   .addSubcommand((subcommand) =>
     subcommand
-      .setName("many")
-      .setDescription("Punish many people at once")
+      .setName('many')
+      .setDescription('Punish many people at once')
       .addIntegerOption((option) =>
         option
-          .setName("duration")
-          .setDescription("Duration of time out in seconds")
+          .setName('duration')
+          .setDescription('Duration of time out in seconds')
           .setRequired(true)
       )
       .addUserOption((option) =>
         option
-          .setName("target1")
-          .setDescription("The evildoer to punish")
+          .setName('target1')
+          .setDescription('The evildoer to punish')
           .setRequired(true)
       )
       .addUserOption((option) =>
-        option.setName("target2").setDescription("The evildoer to punish")
+        option.setName('target2').setDescription('The evildoer to punish')
       )
       .addUserOption((option) =>
-        option.setName("target3").setDescription("The evildoer to punish")
+        option.setName('target3').setDescription('The evildoer to punish')
       )
       .addUserOption((option) =>
-        option.setName("target4").setDescription("The evildoer to punish")
+        option.setName('target4').setDescription('The evildoer to punish')
       )
       .addUserOption((option) =>
-        option.setName("target5").setDescription("The evildoer to punish")
+        option.setName('target5').setDescription('The evildoer to punish')
       )
   )
   .addSubcommand((subcommand) =>
     subcommand
-      .setName("extreme")
-      .setDescription("Only for the worst offenders, use with care.")
+      .setName('extreme')
+      .setDescription('Only for the worst offenders, use with care.')
       .addUserOption((option) =>
         option
-          .setName("target")
-          .setDescription("The evil person to punish")
+          .setName('target')
+          .setDescription('The evil person to punish')
           .setRequired(true)
       )
       .addIntegerOption((option) =>
         option
-          .setName("duration")
-          .setDescription("Duration of the timeout in seconds (60s default)")
+          .setName('duration')
+          .setDescription('Duration of the timeout in seconds (60s default)')
       )
       .addIntegerOption((option) =>
         option
-          .setName("time")
+          .setName('time')
           .setDescription(
-            "How much time they have to type in seconds (150s default)"
+            'How much time they have to type in seconds (150s default)'
           )
       )
   );
@@ -88,16 +88,16 @@ const data = new SlashCommandBuilder()
 const extremePunish = async (channel, target, duration, timeInSeconds) => {
   const gomens = [
     [
-      "Gomenasorry ojousama supreme commander cult leader hime princess nya nya",
-      "use the buttons below to type out the full gomenasorry message. Good luck! <:nyaSalute:1251618350736478270>",
+      'Gomenasorry ojousama supreme commander cult leader hime princess nya nya',
+      'use the buttons below to type out the full gomenasorry message. Good luck! <:nyaSalute:1251618350736478270>',
     ],
     [
-      "Gomenyasorry ojousama supreme commyander cult leader himye princyess nya nya",
-      "use the buttons below to type out the full gome*NYA*sorry message. This is a rare variant! Good luck! <:nyaSalute:1251618350736478270>",
+      'Gomenyasorry ojousama supreme commyander cult leader himye princyess nya nya',
+      'use the buttons below to type out the full gome*NYA*sorry message. This is a rare variant! Good luck! <:nyaSalute:1251618350736478270>',
     ],
     [
-      "sowwy Commyandew, I am simpwy too stupid of a degenyewate t-to undewstand youw shawp wits and amazing tawents!!11",
-      "use the buttons below to type out the UWUfied gomenasorry message. This is an ultra rare variant! Good luck! <:nyaSalute:1251618350736478270>",
+      'sowwy Commyandew, I am simpwy too stupid of a degenyewate t-to undewstand youw shawp wits and amazing tawents!!11',
+      'use the buttons below to type out the UWUfied gomenasorry message. This is an ultra rare variant! Good luck! <:nyaSalute:1251618350736478270>',
     ],
   ];
 
@@ -109,7 +109,7 @@ const extremePunish = async (channel, target, duration, timeInSeconds) => {
   ]);
   const [gomen, displayText] = choice;
 
-  let letters = gomen.split("");
+  let letters = gomen.split('');
   letters = [...new Set(letters)];
   const buttons = [];
 
@@ -117,7 +117,7 @@ const extremePunish = async (channel, target, duration, timeInSeconds) => {
   for (let i = 0; i < letters.length; i++) {
     let letter = letters[i];
 
-    if (letter === " ") letter = "space";
+    if (letter === ' ') letter = 'space';
 
     const btn = new ButtonBuilder()
       .setCustomId(letter)
@@ -143,8 +143,8 @@ const extremePunish = async (channel, target, duration, timeInSeconds) => {
 
   //embed interaction
   let embed = new EmbedBuilder()
-    .setTitle("Extreme Punish")
-    .setColor("#ff6da0")
+    .setTitle('Extreme Punish')
+    .setColor('#ff6da0')
     .setDescription(text)
     .setTimestamp();
 
@@ -162,7 +162,7 @@ const extremePunish = async (channel, target, duration, timeInSeconds) => {
     filter: filter,
   });
 
-  let gomenText = "";
+  let gomenText = '';
 
   const updateTime = 5;
 
@@ -185,77 +185,55 @@ const extremePunish = async (channel, target, duration, timeInSeconds) => {
   );
 
   //add progress to message
-  collector.on("collect", async (i) => {
-    gomenText += i.customId === "space" ? " " : i.customId;
-    text += i.customId === "space" ? " " : i.customId;
+  collector.on('collect', async (i) => {
+    gomenText += i.customId === 'space' ? ' ' : i.customId;
+    text += i.customId === 'space' ? ' ' : i.customId;
     embed.setDescription(text);
     await i.update({ embeds: [embed] });
 
     //stop with failure
     if (!gomen.startsWith(gomenText)) {
-      collector.stop("failure");
+      collector.stop('failure');
     }
 
     //success message
     if (gomenText === gomen) {
-      collector.stop("success");
+      collector.stop('success');
       await channel.send(
         `Congratulations, ${target}, you live to see another day.`
       );
     }
   });
 
-  collector.on("ignore", async (i) => {
-    // when an interaction is ignored
+  collector.on('ignore', async (i) => {
+    //when an interaction is ignored
   });
 
-  //this may need changed as loser role no longer exists -Jim
-  //it would have added the loser role to the target upon failure
-  collector.on("end", async (collected, reason) => {
+  //command finished reply & timeout logic
+  collector.on('end', async (collected, reason) => {
     clearTimeout(timeoutId);
     clearInterval(intervalId);
-    if (reason !== "success") {
-      if (reason === "failure") {
+    if (reason !== 'success') {
+      if (reason === 'failure') {
         await response.reply(`You messed up, ${target}, delete yourself.`);
-        if (secondsLeft > timeInSeconds - 30) {
-          // loser role
-          try {
-            await target.roles.add("1277427927734292561");
-
-            setTimeout(async () => {
-              try {
-                await target.roles.remove("1277427927734292561");
-              } catch (e) {
-                console.log(e);
-              }
-            }, 60 * 60 * 1000);
-          } catch (e) {
-            console.log(e);
-          }
-        }
       } else {
         await response.reply(`You were too late, ${target}, delete yourself.`);
       }
-
       if (target.manageable || target.moderatable) {
-        await target.timeout(duration, "Failed to apologize");
+        await target.timeout(duration, 'Failed to apologize');
       }
     }
-
     await response.edit({ components: [] });
   });
 };
 
-//cath should maybe be removed as a constant target -Jim
 const execute = async (interaction) => {
-  const cathId = "133956553505112064";
-
   //punish many logic
   const gomen =
-    "Gomenasorry ojousama supreme commander cult leader hime princess nya nya";
+    'Gomenasorry ojousama supreme commander cult leader hime princess nya nya';
   const timeout_duration =
-    (interaction.options.getInteger("duration") ?? 60) * 1000;
-  if (interaction.options.getSubcommand() === "many") {
+    (interaction.options.getInteger('duration') ?? 60) * 1000;
+  if (interaction.options.getSubcommand() === 'many') {
     await interaction.deferReply({ ephemeral: false });
     const targets = [];
 
@@ -264,7 +242,7 @@ const execute = async (interaction) => {
         targets.push(interaction.options.getMember(`target${i}`));
     }
 
-    let punishMessage = "Hey, ";
+    let punishMessage = 'Hey, ';
 
     let validTargets = [];
 
@@ -276,13 +254,8 @@ const execute = async (interaction) => {
       }
     });
 
-    // always add cath to the target list as per commander's instructions
-    const cath = await interaction.guild.members.fetch(cathId);
-    validTargets.push(cath);
-    //may be time to remove Cath as a permanent target - Jim
-
     //alert user of the punish command so they interact
-    punishMessage += validTargets.join(", ");
+    punishMessage += validTargets.join(', ');
     punishMessage +=
       "! It's time for you to apologize!\n\nYou have one minute to send a proper apology in this channel.\n\nAny other message but the full gomenasorry text will get you timed out!";
     await interaction.followUp(punishMessage);
@@ -304,7 +277,7 @@ const execute = async (interaction) => {
         filter,
         max: validTargets.length,
         time: 60_000,
-        errors: ["time"],
+        errors: ['time'],
       })
       //success/failure logic
       .then(async (collected) => {
@@ -317,7 +290,7 @@ const execute = async (interaction) => {
               `You have failed to apologize. Time for a little timeout.`
             );
             try {
-              await msg.member.timeout(timeout_duration, "Failed to apologize");
+              await msg.member.timeout(timeout_duration, 'Failed to apologize');
             } catch (e) {
               console.log(e);
             }
@@ -331,16 +304,16 @@ const execute = async (interaction) => {
               `You were too late, <@${t.id}>. Get timed out!`
             );
             try {
-              await t.timeout(timeout_duration, "Failed to apologize");
+              await t.timeout(timeout_duration, 'Failed to apologize');
             } catch (e) {
               console.log(e);
             }
           }
         });
       });
-  } else if (interaction.options.getSubcommand() === "one") {
+  } else if (interaction.options.getSubcommand() === 'one') {
     await interaction.deferReply({ ephemeral: true });
-    const target = interaction.options.getMember("target");
+    const target = interaction.options.getMember('target');
 
     //check if can timeout user
     if (!target.manageable || !target.moderatable) {
@@ -360,7 +333,7 @@ const execute = async (interaction) => {
 
     //message for when punish command finishes
     interaction.channel
-      .awaitMessages({ filter, max: 1, time: 60_000, errors: ["time"] })
+      .awaitMessages({ filter, max: 1, time: 60_000, errors: ['time'] })
       .then(async (collected) => {
         const msg = collected.first();
         replied = true;
@@ -371,7 +344,7 @@ const execute = async (interaction) => {
             `You have failed to apologize. Time for a little timeout.`
           );
           try {
-            await target.timeout(timeout_duration, "Failed to apologize");
+            await target.timeout(timeout_duration, 'Failed to apologize');
           } catch (e) {
             console.log(e);
           }
@@ -384,7 +357,7 @@ const execute = async (interaction) => {
             `You were too late, <@${target.id}>. Get timed out!`
           );
           try {
-            await target.timeout(timeout_duration, "Failed to apologize");
+            await target.timeout(timeout_duration, 'Failed to apologize');
           } catch (e) {
             console.log(e);
           }
@@ -393,10 +366,10 @@ const execute = async (interaction) => {
 
     //reply message when command starts
     await interaction.editReply("It's done, boss.");
-  } else if (interaction.options.getSubcommand() == "extreme") {
+  } else if (interaction.options.getSubcommand() == 'extreme') {
     await interaction.deferReply({ ephemeral: true });
-    const target = interaction.options.getMember("target");
-    const timeInSeconds = interaction.options.getInteger("time") ?? 150;
+    const target = interaction.options.getMember('target');
+    const timeInSeconds = interaction.options.getInteger('time') ?? 150;
     await extremePunish(
       interaction.channel,
       target,
@@ -404,7 +377,7 @@ const execute = async (interaction) => {
       timeInSeconds
     );
     await interaction.editReply(
-      "<:nyaSalute:1251618350736478270> yes supreme commyander princess hime nya nya"
+      '<:nyaSalute:1251618350736478270> yes supreme commyander princess hime nya nya'
     );
   }
 };

@@ -47,7 +47,7 @@ const execute = async (interaction) => {
     try {
       const name = interaction.options.getString('name');
       const re = interaction.options.getString('regex');
-      
+
       //add new word & regex to banned word list
       const added = await interaction.client.bannedTable.create({
         regex: re,

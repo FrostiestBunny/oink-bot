@@ -27,12 +27,6 @@ const client = new Client({
 client.commands = new Collection();
 client.cooldowns = new Collection();
 
-// mr breast, 500 cigarettes
-// client.bannedWords = [
-//   /(m|nn|rn|🇲|Ⓜ️)+(r|🇷|®️)+ +(b|8||}||:||8|ß|ь|🇧|🅱️)+(r|🇷|®️)+(e|3|£|🇪)+(a|4|@|∆|\/-\|\/_\|Д|🇦|🅰️)+(s|5|§|🇸)+(t|7|🇹|✝️)+/i,
-//   /(5|5️⃣)+\s*(0|0️⃣){2,}\s* +\s*(c|€|🇨|©️)+\s*(i|1|!|l|🇮|ℹ️)+\s*(g|9|🇬)+\s*(a|4|@|∆|\/-\\|\/_\\|Д|🇦|🅰️)+\s*(r|🇷|®️)+\s*(e|3|£|🇪)+\s*(t|7|🇹|✝️){2,}\s*(e|3|£|🇪)+\s*(s|5|§|🇸)+/,
-// ];
-
 // *** DATABASE STUFF ***
 const sequelize = new Sequelize('database', 'admin', DB_PASS, {
   host: 'localhost',
@@ -75,6 +69,7 @@ client.promiseDB = LPromises;
 client.bannedTable = bannedTable;
 // *** END OF DATABASE STUFF ***
 
+//load commands
 const foldersPath = path.join(__dirname, 'commands');
 const commandFolders = fs.readdirSync(foldersPath);
 
@@ -96,6 +91,7 @@ for (const folder of commandFolders) {
   }
 }
 
+//load events
 const eventsPath = path.join(__dirname, 'events');
 const eventFiles = fs
   .readdirSync(eventsPath)
