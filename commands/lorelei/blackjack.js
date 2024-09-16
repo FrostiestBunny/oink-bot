@@ -1,5 +1,4 @@
-// blackjack game command
-//TODO Bunny to refactor for buttons & embed
+//blackjack game command
 const {
   SlashCommandBuilder,
   PermissionFlagsBits,

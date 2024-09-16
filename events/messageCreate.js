@@ -7,7 +7,7 @@ const { extremePunish } = require('../commands/lorelei/punish.js');
  * @property {GuildMember} member
  */
 module.exports = {
-  name: Events.MessageCreate,
+  name: 'messageCreate',
   /**
    * @param {Message} message
    */

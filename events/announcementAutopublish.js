@@ -10,7 +10,7 @@ const announcementChannels = [
 ];
 
 module.exports = {
-  name: Events.MessageCreate,
+  name: 'announcementAutopublish',
   async execute(message) {
     try {
       //check message exists, & in a valid channel
