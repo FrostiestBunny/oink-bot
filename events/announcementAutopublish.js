@@ -28,12 +28,12 @@ module.exports = {
               await message.crosspost();
             }
           } catch (error) {
-            console.error(`Failed to crosspost message: ${error}`);
+            console.error('Failed to crosspost message: ', error);
           }
-        }, 3000); // 3s delay
+        }, 3000); //3s delay
       }
     } catch (error) {
-      console.error('Error in autopublish event:', error);
+      console.error('Error on autopublish event: ', error);
     }
   },
 };

@@ -36,7 +36,7 @@ module.exports = {
         }
       }
     } catch (error) {
-      console.error('Error in messageCreate event:', error);
+      console.error('Error on messageCreate event: ', error);
     }
   },
 };
