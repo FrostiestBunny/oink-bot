@@ -1,12 +1,10 @@
 //blackjack game command
 const {
   SlashCommandBuilder,
-  PermissionFlagsBits,
   EmbedBuilder,
   ButtonBuilder,
   ButtonStyle,
   ActionRowBuilder,
-  ComponentType,
 } = require('discord.js');
 
 //name of slash command & description

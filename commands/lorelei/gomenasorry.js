@@ -1,6 +1,5 @@
 //gomenasorry message commands
 const { SlashCommandBuilder } = require('discord.js');
-const { chooseWithProbabilities } = require('../../randomUtil.js');
 
 //name of slash command, description, &  variants
 const data = new SlashCommandBuilder()

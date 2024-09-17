@@ -1,5 +1,4 @@
 //headpat message command
-const { request } = require('undici');
 const canvasGif = require('canvas-gif');
 const Canvas = require('canvas');
 const path = require('node:path');
