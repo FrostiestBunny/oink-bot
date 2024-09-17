@@ -1,7 +1,6 @@
 //oinks command, used to check oinks from Lorelei's twitch
 require('dotenv').config();
 const { SlashCommandBuilder } = require('discord.js');
-const { SE_ENDPOINTS } = require('../../se-endpoints');
 const twitchManager = require('../../twitchManager');
 
 const CHANNEL_ID = process.env.CHANNEL_ID;
