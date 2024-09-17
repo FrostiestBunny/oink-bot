@@ -29,14 +29,14 @@ const data = new SlashCommandBuilder()
 //roll the dice
 const execute = async (interaction) => {
   try {
-    //set player name as username
+    //set playername as username
     const playerName = interaction.member.displayName;
     //get variables
     const sides = interaction.options.getInteger('sides') || 20; //default 20
     const quantity = interaction.options.getInteger('quantity') || 1; //default 1
     const modifier = interaction.options.getInteger('modifier') || 0; //default 0
 
-    //get dice roll result
+    //get diceroll result
     const rollDie = (sides) => {
       return Math.floor(Math.random() * sides) + 1;
     };
@@ -75,17 +75,21 @@ const execute = async (interaction) => {
       results.push(modifiedRoll);
     }
 
+    //plural check
+    const dieText = quantity === 1 ? 'die' : 'dice';
+    const resultText = quantity === 1 ? 'result' : 'results';
+
     //make an embed with the results
     const embed = new EmbedBuilder()
       .setColor('Blue')
       .setTitle('Dice Roll Results')
       .setThumbnail(interaction.member.displayAvatarURL())
       .setDescription(
-        `${playerName} rolled ${quantity} ${sides}-sided dice${
+        `${playerName} rolled ${quantity} ${sides}-sided ${dieText}${
           modifier !== 0
             ? ` with a modifier of ${modifier >= 0 ? '+' : ''}${modifier}`
             : ''
-        } and got:\n**${results.join(', ')}**`
+        } and got the following ${resultText}:\n**${results.join(', ')}**`
       );
 
     //calculate sum & averages if rolling multiple dice
