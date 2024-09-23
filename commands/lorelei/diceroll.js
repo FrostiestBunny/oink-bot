@@ -1,5 +1,6 @@
 //diceroll command
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
+const numberToWords = require('number-to-words');
 
 //name of slash command & description
 const data = new SlashCommandBuilder()
@@ -79,13 +80,16 @@ const execute = async (interaction) => {
     const dieText = quantity === 1 ? 'die' : 'dice';
     const resultText = quantity === 1 ? 'result' : 'results';
 
+    //convert quantity to words
+    const quantityWords = numberToWords.toWords(quantity);
+
     //make an embed with the results
     const embed = new EmbedBuilder()
       .setColor('Blue')
       .setTitle('Dice Roll Results')
       .setThumbnail(interaction.member.displayAvatarURL())
       .setDescription(
-        `${playerName} rolled ${quantity} ${sides}-sided ${dieText}${
+        `${playerName} rolled ${quantityWords} ${sides}-sided ${dieText}${
           modifier !== 0
             ? ` with a modifier of ${modifier >= 0 ? '+' : ''}${modifier}`
             : ''
