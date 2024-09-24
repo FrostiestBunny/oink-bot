@@ -120,6 +120,12 @@ const execute = async (interaction) => {
 
   const interactionFilter = (i) => i.user.id === interaction.member.id;
 
+  //check for blackjack
+  if (handValue(playerHand) === 21) {
+    await interaction.followUp(`Blackjack! ${playerName} wins!`);
+    return;
+  }
+
   //repeat until game is over
   while (!gameOver) {
     //display hands, 1 of OinkBot's cards are hidden
@@ -137,13 +143,6 @@ const execute = async (interaction) => {
       .setThumbnail(interaction.member.displayAvatarURL());
 
     await message.edit({ embeds: [embed] });
-
-    //check for blackjack
-    if (handValue(playerHand) === 21) {
-      await interaction.followUp(`Blackjack! ${playerName} wins!`);
-      gameOver = true;
-      continue;
-    }
 
     //hit or stand
     if (!playerStand) {
@@ -208,12 +207,19 @@ const execute = async (interaction) => {
         .setThumbnail(interaction.member.displayAvatarURL());
       await message.edit({ embeds: [embed], components: [] });
 
+      //determine outcome logic
       if (handValue(oinkHand) > 21) {
-        await interaction.followUp(`${dealerName} busts! ${playerName} wins!`);
-      } else if (handValue(oinkHand) >= handValue(playerHand)) {
+        await interaction.followUp(
+          `${dealerName} busts! <:derplei:NUMBER > ${playerName} wins!`
+        );
+      } else if (handValue(oinkHand) > handValue(playerHand)) {
         await interaction.followUp(`${dealerName} wins!`);
-      } else {
+      } else if (handValue(oinkHand) < handValue(playerHand)) {
         await interaction.followUp(`${playerName} wins!`);
+      } else {
+        await interaction.followUp(
+          `It's a draw! ${dealerName} wins by default. <:nyaSmug:NUMBER>`
+        );
       }
       gameOver = true;
     }

@@ -92,7 +92,6 @@ const execute = async (interaction) => {
         `${playerName} ${coinMessage} and bet **${
           playerBet === 'h' ? 'Heads' : 'Tails'
         }**.`
-        //\n\n**Result**: ${results.join(', ')}\n\n${resultMessage}`
       )
       .addFields(
         {
