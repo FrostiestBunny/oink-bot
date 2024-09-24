@@ -194,7 +194,7 @@ const execute = async (interaction) => {
       //TODO this is ugly, find a better way
       embed = new EmbedBuilder()
         .setColor('LuminousVividPink')
-        .setTitle('Blackjack Table')
+        .setTitle('🃏 Blackjack Table 🃏')
         .addFields({
           name: `${playerName}'s hand:`,
           value: `${handToString(playerHand)} (Value: ${handValue(

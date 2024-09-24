@@ -37,11 +37,17 @@ const execute = async (interaction) => {
 
     //flip the coins & store results in array
     let results = [];
+    let headsCount = 0;
+    let tailsCount = 0;
     let wins = 0;
     for (let i = 0; i < quantity; i++) {
       const randomNum = Math.random();
       const result = randomNum < 0.5 ? 'Heads' : 'Tails';
       results.push(result);
+
+      //tally results
+      if (result === 'Heads') headsCount++;
+      else tailsCount++;
 
       //check if bet won
       if (
@@ -54,7 +60,7 @@ const execute = async (interaction) => {
 
     //plural check
     const coinMessage =
-      quantity === 1 ? `flipped a coin` : `flipped ${quantity} coins`;
+      quantity === 1 ? `flipped a coin` : `flipped **${quantity}** coins`;
 
     //result message
     let resultMessage;
@@ -67,7 +73,7 @@ const execute = async (interaction) => {
       }
     } else {
       if (wins === quantity) {
-        resultMessage = `Nyo way! **All** **__${quantity}__** flips matched ${playerName}'s bet! <:nyaPog:1266689433755717752>`;
+        resultMessage = `Nyo way! **All** **__${quantity}__** flips matched ${playerName}'s bet! <:nyaGains:1286756910435143770>`;
       } else if (wins === 1) {
         resultMessage = `${playerName} won **__only once!__** <:nyaPaws:1259377908229738578>`;
       } else if (wins > 1) {
@@ -85,7 +91,20 @@ const execute = async (interaction) => {
       .setDescription(
         `${playerName} ${coinMessage} and bet **${
           playerBet === 'h' ? 'Heads' : 'Tails'
-        }**.\n\n**Result**: ${results.join(', ')}\n\n${resultMessage}`
+        }**.`
+        //\n\n**Result**: ${results.join(', ')}\n\n${resultMessage}`
+      )
+      .addFields(
+        {
+          name: 'Flips <nyaFlipoff:1278021063195885609>',
+          value: `• **Heads:** ${headsCount}\n• **Tails:** ${tailsCount}`,
+          inline: true,
+        },
+        {
+          name: 'Overall Results <:nYay2:1285207112116338718>',
+          value: resultMessage,
+          inline: false,
+        }
       );
 
     //print results
