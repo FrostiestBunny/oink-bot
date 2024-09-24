@@ -61,31 +61,31 @@ const execute = async (interaction) => {
     if (quantity === 1) {
       //win-loss for a single flip
       if (wins === 1) {
-        resultMessage = `${playerName} won! <:nyaPog:1266689433755717752>`;
+        resultMessage = `${playerName} **won**! <:nyaPog:1266689433755717752>`;
       } else {
-        resultMessage = `${playerName} lost. <:nyaTBH:1255183972799877170>`;
+        resultMessage = `${playerName} **lost**. <:nyaTBH:1255183972799877170>`;
       }
     } else {
       if (wins === quantity) {
-        resultMessage = `Nyo way! All ${quantity} flips matched ${playerName}'s bet! <:nyaPog:1266689433755717752>`;
+        resultMessage = `Nyo way! **All** **__${quantity}__** flips matched ${playerName}'s bet! <:nyaPog:1266689433755717752>`;
       } else if (wins === 1) {
-        resultMessage = `${playerName} won only once! <:nyaPaws:1259377908229738578>`;
+        resultMessage = `${playerName} won **__only once!__** <:nyaPaws:1259377908229738578>`;
       } else if (wins > 1) {
-        resultMessage = `${playerName} won ${wins} times! <:nyaPog:1266689433755717752>`;
+        resultMessage = `${playerName} won **${wins}** times! <:nyaPog:1266689433755717752>`;
       } else {
-        resultMessage = `${playerName} lost all flips... Maybe this is a sign? <:nyaBinky:1260736866294956102>`;
+        resultMessage = `${playerName} **lost** **__all__** flips... Maybe this is a sign? <:nyaBinky:1260736866294956102>`;
       }
     }
 
     //make the embed with results
     const embed = new EmbedBuilder()
       .setColor('Blue')
-      .setTitle('Coin Flip Results')
+      .setTitle('👛 Coin Flip Results 👛')
       .setThumbnail(interaction.member.displayAvatarURL())
       .setDescription(
-        `${playerName} ${coinMessage} and bet ${
+        `${playerName} ${coinMessage} and bet **${
           playerBet === 'h' ? 'Heads' : 'Tails'
-        }.\n\nResult: **${results.join(', ')}**\n\n${resultMessage}`
+        }**.\n\n**Result**: ${results.join(', ')}\n\n${resultMessage}`
       );
 
     //print results

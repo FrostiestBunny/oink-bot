@@ -86,10 +86,10 @@ const execute = async (interaction) => {
     //make an embed with the results
     const embed = new EmbedBuilder()
       .setColor('Blue')
-      .setTitle('Dice Roll Results')
+      .setTitle('🎲 Dice Roll Results 🎲')
       .setThumbnail(interaction.member.displayAvatarURL())
       .setDescription(
-        `${playerName} rolled ${quantityWords} ${sides}-sided ${dieText}${
+        `${playerName} rolled **__${quantityWords}__** **${sides}-sided** ${dieText}${
           modifier !== 0
             ? ` with a modifier of ${modifier >= 0 ? '+' : ''}${modifier}`
             : ''
