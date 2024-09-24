@@ -95,7 +95,7 @@ const execute = async (interaction) => {
       )
       .addFields(
         {
-          name: 'Flips <nyaFlipoff:1278021063195885609>',
+          name: 'Flips <:nyaFlipoff:1278021063195885609>',
           value: `• **Heads:** ${headsCount}\n• **Tails:** ${tailsCount}`,
           inline: true,
         },
