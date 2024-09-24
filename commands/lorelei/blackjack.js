@@ -101,7 +101,7 @@ const execute = async (interaction) => {
   //game embed
   let embed = new EmbedBuilder()
     .setColor('LuminousVividPink')
-    .setTitle('Blackjack Table')
+    .setTitle('🃏 Blackjack Table 🃏')
     .addFields({
       name: `${playerName}'s hand:`,
       value: `${handToString(playerHand)} (Value: ${handValue(playerHand)})`,
@@ -120,12 +120,18 @@ const execute = async (interaction) => {
 
   const interactionFilter = (i) => i.user.id === interaction.member.id;
 
+  //check for blackjack
+  if (handValue(playerHand) === 21) {
+    await interaction.followUp(`Blackjack! ${playerName} wins!`);
+    return;
+  }
+
   //repeat until game is over
   while (!gameOver) {
     //display hands, 1 of OinkBot's cards are hidden
     embed = new EmbedBuilder()
       .setColor('LuminousVividPink')
-      .setTitle('Blackjack Table')
+      .setTitle('🃏 Blackjack Table 🃏')
       .addFields({
         name: `${playerName}'s hand:`,
         value: `${handToString(playerHand)} (Value: ${handValue(playerHand)})`,
@@ -137,13 +143,6 @@ const execute = async (interaction) => {
       .setThumbnail(interaction.member.displayAvatarURL());
 
     await message.edit({ embeds: [embed] });
-
-    //check for blackjack
-    if (handValue(playerHand) === 21) {
-      await interaction.followUp(`Blackjack! ${playerName} wins!`);
-      gameOver = true;
-      continue;
-    }
 
     //hit or stand
     if (!playerStand) {
@@ -164,7 +163,7 @@ const execute = async (interaction) => {
         //TODO this is ugly, find a better way
         embed = new EmbedBuilder()
           .setColor('LuminousVividPink')
-          .setTitle('Blackjack Table')
+          .setTitle('🃏 Blackjack Table 🃏')
           .addFields({
             name: `${playerName}'s hand:`,
             value: `${handToString(playerHand)} (Value: ${handValue(
@@ -178,7 +177,9 @@ const execute = async (interaction) => {
           .setThumbnail(interaction.member.displayAvatarURL());
         await action.update({ embeds: [embed] });
         if (handValue(playerHand) > 21) {
-          await interaction.followUp(`Bust! ${playerName} loses.`);
+          await interaction.followUp(
+            `Bust! <:derplei:1254435482108956782> ${playerName} loses. <:smuglei:1271465346439708742>`
+          );
           gameOver = true;
         }
         //stand
@@ -194,7 +195,7 @@ const execute = async (interaction) => {
       //TODO this is ugly, find a better way
       embed = new EmbedBuilder()
         .setColor('LuminousVividPink')
-        .setTitle('Blackjack Table')
+        .setTitle('🃏 Blackjack Table 🃏')
         .addFields({
           name: `${playerName}'s hand:`,
           value: `${handToString(playerHand)} (Value: ${handValue(
@@ -208,12 +209,23 @@ const execute = async (interaction) => {
         .setThumbnail(interaction.member.displayAvatarURL());
       await message.edit({ embeds: [embed], components: [] });
 
+      //determine outcome logic
       if (handValue(oinkHand) > 21) {
-        await interaction.followUp(`${dealerName} busts! ${playerName} wins!`);
-      } else if (handValue(oinkHand) >= handValue(playerHand)) {
-        await interaction.followUp(`${dealerName} wins!`);
+        await interaction.followUp(
+          `${dealerName} busts! <:derplei:1254435482108956782> ${playerName} wins! <:nyaAngry:1251302942456414218>`
+        );
+      } else if (handValue(oinkHand) > handValue(playerHand)) {
+        await interaction.followUp(
+          `${dealerName} wins! <:smuglei:1271465346439708742>`
+        );
+      } else if (handValue(oinkHand) < handValue(playerHand)) {
+        await interaction.followUp(
+          `${playerName} wins! <:nyaOver:1285789027701886986>`
+        );
       } else {
-        await interaction.followUp(`${playerName} wins!`);
+        await interaction.followUp(
+          `It's a draw! ${dealerName} wins by default. <:nyaSmug:1251617158056640653>`
+        );
       }
       gameOver = true;
     }
