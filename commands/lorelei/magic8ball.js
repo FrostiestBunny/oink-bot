@@ -70,11 +70,11 @@ const execute = async (interaction) => {
     //get the question from the user
     const question = interaction.options.getString('question');
 
-    //pigpen bully check
+    //pig-pen/bot-spam bully check
     const channel = interaction.channel.id;
     let availableResponses = [];
-    if (channel === '1247276527125794867') {
-      //use both normal & bully responses in pig-pen
+    if (channel === '1247276527125794867' || '1283447730693345353') {
+      //use all responses in pig-pen & bot-spam
       availableResponses = [...responses.normal, ...responses.bully];
     } else {
       //use only normal responses anywhere else
