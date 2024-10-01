@@ -3,7 +3,7 @@ const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 
 //name of slash command & description
 const data = new SlashCommandBuilder()
-  .setName('suggestion')
+  .setName('suggest')
   .setDescription('Send suggestions/feedback for Lorelei')
   .addStringOption((option) =>
     option

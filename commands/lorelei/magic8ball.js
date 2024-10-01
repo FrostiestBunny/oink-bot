@@ -75,7 +75,7 @@ const execute = async (interaction) => {
     let availableResponses = [];
     if (
       interaction.member.roles.cache.has('1256247572582891542') &&
-      (channel === '1247276527125794867' || '1283447730693345353')
+      (channel === '1247276527125794867' || channel === '1283447730693345353')
     ) {
       //use all responses in pig-pen & bot-spam only if user is oinker
       availableResponses = [...responses.normal, ...responses.bully];
