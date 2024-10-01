@@ -41,7 +41,7 @@ const execute = async (interaction) => {
     //1281299794903433267 real
     //suggestions go to mod-alerts channel
     const suggestionChannel = interaction.client.channels.cache.get(
-      '1283043121751658593'
+      '1281299794903433267'
     );
 
     //make an embed with the suggestion
