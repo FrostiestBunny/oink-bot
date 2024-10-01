@@ -70,14 +70,17 @@ const execute = async (interaction) => {
     //get the question from the user
     const question = interaction.options.getString('question');
 
-    //pig-pen/bot-spam bully check
+    //pig-pen/bot-spam & oinker bully check
     const channel = interaction.channel.id;
     let availableResponses = [];
-    if (channel === '1247276527125794867' || '1283447730693345353') {
-      //use all responses in pig-pen & bot-spam
+    if (
+      interaction.member.roles.cache.has('1256247572582891542') &&
+      (channel === '1247276527125794867' || channel === '1283447730693345353')
+    ) {
+      //use all responses in pig-pen & bot-spam only if user is oinker
       availableResponses = [...responses.normal, ...responses.bully];
     } else {
-      //use only normal responses anywhere else
+      //use only normal responses any other case
       availableResponses = responses.normal;
     }
 
@@ -98,9 +101,11 @@ const execute = async (interaction) => {
     await interaction.reply({ embeds: [embed] });
   } catch (error) {
     console.error(error);
-    await interaction.reply(
-      'Something went wrong while consulting the Magic 8-Ball. <:nyaSad:1250106743514599435>'
-    );
+    await interaction.reply({
+      content:
+        'Something went wrong while consulting the Magic 8-Ball. <:nyaSad:1250106743514599435>',
+      ephemeral: true,
+    });
   }
 };
 

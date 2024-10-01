@@ -155,7 +155,11 @@ const execute = async (interaction) => {
       } catch (e) {
         // this happens when we don't receive an interaction within the time limit
         await message.edit({ components: [] }); // removes the buttons
-        return interaction.followUp('Player fell asleep I guess.'); // exit command here
+        return interaction.followUp({
+          content:
+            'You ran out of time to play! <:nyaAngry:1251302942456414218>',
+          ephemeral: true,
+        }); // exit command here
       }
       //hit
       if (action.customId === 'hit') {

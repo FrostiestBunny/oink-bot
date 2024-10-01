@@ -44,25 +44,31 @@ const execute = async (interaction) => {
 
     //check for valid numbers, must be at least 3 sided with max of 100 sides
     if (sides < 3 || sides > 100) {
-      await interaction.reply(
-        'Please enter a valid number of sides between 3 and 100! <:nyaAngry:1251302942456414218>'
-      );
+      await interaction.reply({
+        content:
+          'Please enter a valid number of sides between 3 and 100! <:nyaAngry:1251302942456414218>',
+        ephemeral: true,
+      });
       return;
     }
 
     //must be more than 0 & less than 100 dice
     if (quantity <= 0 || quantity > 100) {
-      await interaction.reply(
-        'Please enter a valid number of dice between 1 and 100! <:nyaAngry:1251302942456414218>'
-      );
+      await interaction.reply({
+        content:
+          'Please enter a valid number of dice between 1 and 100! <:nyaAngry:1251302942456414218>',
+        ephemeral: true,
+      });
       return;
     }
 
     //modifier must be between -50 and +50
     if (modifier < -50 || modifier > 50) {
-      await interaction.reply(
-        'Please enter a modifier between -50 and +50! <:nyaAngry:1251302942456414218>'
-      );
+      await interaction.reply({
+        content:
+          'Please enter a modifier between -50 and +50! <:nyaAngry:1251302942456414218>',
+        ephemeral: true,
+      });
       return;
     }
 
@@ -146,9 +152,11 @@ const execute = async (interaction) => {
     await interaction.reply({ embeds: [embed] });
   } catch (error) {
     console.error(error);
-    await interaction.reply(
-      'Something went wrong while rolling the dice. <:nyaSad:1250106743514599435>'
-    );
+    await interaction.reply({
+      content:
+        'Something went wrong while rolling the dice. <:nyaSad:1250106743514599435>',
+      ephemeral: true,
+    });
   }
 };
 

@@ -35,9 +35,11 @@ const execute = async (interaction) => {
   try {
     const response = await twitchManager.getUserPoints(name);
     if (response.error) {
-      await interaction.followUp(
-        'No such user <:nyaSad:1250106743514599435>\nCheck if you entered your Twitch name correctly!'
-      );
+      await interaction.followUp({
+        content:
+          'No such user <:nyaSad:1250106743514599435>\nCheck if you entered your Twitch name correctly!',
+        ephemeral: true,
+      });
     } else {
       const [oinks, rank] = [response.points, response.rank];
       await interaction.followUp(
@@ -45,9 +47,10 @@ const execute = async (interaction) => {
       );
     }
   } catch (err) {
-    await interaction.followUp(
-      'Something went wrong <:nyaSad:1250106743514599435>'
-    );
+    await interaction.followUp({
+      content: 'Something went wrong <:nyaSad:1250106743514599435>',
+      ephemeral: true,
+    });
     console.error(err);
   }
 };
