@@ -52,7 +52,7 @@ const execute = async (interaction) => {
 
       //reply with the timestamp
       await interaction.reply(
-        `The input date & time as a timestamp is: <t:${timestamp}:F>`
+        `The input date & time locally is: <t:${timestamp}:F>`
       );
     }
   } catch (error) {
