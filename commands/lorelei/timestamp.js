@@ -30,40 +30,31 @@ const execute = async (interaction) => {
     const time =
       interaction.options.getString('time') || moment().format('HH:mm'); //default current time
 
-    //validate date
+    //validate date & time
     if (!moment(date, 'YYYY-MM-DD', true).isValid()) {
       return interaction.reply({
         content:
           'Invalid date format. Please use YYYY-MM-DD for date! <:nyaAngry:1251302942456414218>',
         ephemeral: true,
       });
-    }
-
-    //validate time
-    if (!moment(time, 'HH:mm', true).isValid()) {
+    } else if (!moment(time, 'HH:mm', true).isValid()) {
       return interaction.reply({
         content:
           'Invalid time format. Please use HH:mm for time! <:nyaAngry:1251302942456414218>',
         ephemeral: true,
       });
-    }
+    } else {
+      //combine date & time
+      const userDateTime = moment(`${date} ${time}`, 'YYYY-MM-DD HH:mm');
 
-    //combine date & time, then validate again
-    const userDateTime = moment(`${date} ${time}`, 'YYYY-MM-DD HH:mm');
-    if (!userDateTime.isValid()) {
-      return interaction.reply({
-        content:
-          'Invalid date or time format. Please use YYYY-MM-DD for date & HH:mm for time! <:nyaAngry:1251302942456414218>',
-        ephemeral: true,
-      });
-    }
-    //convert to a timestamp
-    const timestamp = userDateTime.unix();
+      //convert to a timestamp
+      const timestamp = userDateTime.unix();
 
-    //reply with the timestamp
-    await interaction.reply(
-      `The input date & time as a timestamp is: <t:${timestamp}:F>`
-    );
+      //reply with the timestamp
+      await interaction.reply(
+        `The input date & time as a timestamp is: <t:${timestamp}:F>`
+      );
+    }
   } catch (error) {
     console.error(error);
     await interaction.reply({
