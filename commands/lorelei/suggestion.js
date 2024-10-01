@@ -7,12 +7,6 @@ const data = new SlashCommandBuilder()
   .setDescription('Send suggestions/feedback for Lorelei')
   .addStringOption((option) =>
     option
-      .setName('message')
-      .setDescription('The suggestion you want to send')
-      .setRequired(true)
-  )
-  .addStringOption((option) =>
-    option
       .setName('category')
       .setDescription('The category of your suggestion')
       .setRequired(true)
@@ -22,6 +16,12 @@ const data = new SlashCommandBuilder()
         { name: 'Twitch', value: 'twitch' },
         { name: 'YouTube', value: 'youtube' }
       )
+  )
+  .addStringOption((option) =>
+    option
+      .setName('message')
+      .setDescription('The suggestion you want to send')
+      .setRequired(true)
   )
   .addAttachmentOption((option) =>
     option

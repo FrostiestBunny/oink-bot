@@ -29,9 +29,11 @@ const execute = async (interaction) => {
 
     //check for valid quantity
     if (quantity <= 0 || quantity > 100) {
-      await interaction.reply(
-        'Please enter a valid number of coins to flip between 1 and 100! <:nyaAngry:1251302942456414218>'
-      );
+      await interaction.reply({
+        content:
+          'Please enter a valid number of coins to flip between 1 and 100! <:nyaAngry:1251302942456414218>',
+        ephemeral: true,
+      });
       return;
     }
 
@@ -110,9 +112,11 @@ const execute = async (interaction) => {
     await interaction.reply({ embeds: [embed] });
   } catch (error) {
     console.error(error);
-    await interaction.reply(
-      'Something went wrong while flipping... <:nyaSad:1250106743514599435>'
-    );
+    await interaction.reply({
+      content:
+        'Something went wrong while flipping... <:nyaSad:1250106743514599435>',
+      ephemeral: true,
+    });
   }
 };
 

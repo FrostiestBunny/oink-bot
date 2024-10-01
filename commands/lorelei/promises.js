@@ -30,12 +30,16 @@ const execute = async (interaction) => {
     return interaction.followUp(`Promise "${p.promise}" added.`);
   } catch (error) {
     if (error.name === 'SequelizeUniqueConstraintError') {
-      return interaction.followUp('That promise already exists.');
+      return interaction.followUp({
+        content: 'That promise already exists. <:nyaNerd:1251606395523039303>',
+        ephemeral: true,
+      });
     }
 
-    return interaction.followUp(
-      'Something went wrong <:nyaSad:1250106743514599435>'
-    );
+    return interaction.followUp({
+      content: 'Something went wrong <:nyaSad:1250106743514599435>',
+      ephemeral: true,
+    });
   }
 };
 
