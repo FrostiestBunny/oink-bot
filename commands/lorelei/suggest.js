@@ -37,8 +37,7 @@ const execute = async (interaction) => {
     const suggestion = interaction.options.getString('message');
     const category = interaction.options.getString('category');
     const attachment = interaction.options.getAttachment('attachment');
-    //1283043121751658593 test
-    //1281299794903433267 real
+
     //suggestions go to mod-alerts channel
     const suggestionChannel = interaction.client.channels.cache.get(
       '1281299794903433267'
