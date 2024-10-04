@@ -30,6 +30,19 @@ const data = new SlashCommandBuilder()
       .setDescription('Time (HH:mm format)')
       .setRequired(false)
       .setAutocomplete(true)
+  )
+  .addStringOption((option) =>
+    option
+      .setName('format')
+      .setDescription('Choose how the timestamp is displayed')
+      .setRequired(false)
+      .addChoices(
+        { name: 'Full Date & Time', value: 'F' },
+        { name: 'Short Date', value: 'd' },
+        { name: 'Time Only', value: 't' },
+        { name: 'Short Time', value: 'T' },
+        { name: 'Relative Time', value: 'R' }
+      )
   );
 
 //common timezones
@@ -138,6 +151,7 @@ const execute = async (interaction) => {
       interaction.options.getString('date') || moment().format('YYYY-MM-DD'); //default current date
     const time =
       interaction.options.getString('time') || moment().format('HH:mm'); //default current time
+    const format = interaction.options.getString('format') || 'F'; //default full format
 
     //validate timezone, date, & time
     if (!moment.tz.zone(timezone)) {
@@ -175,7 +189,7 @@ const execute = async (interaction) => {
     const defaultTime = !interaction.options.getString('time');
 
     //public message
-    const publicMessage = `Here's your timestamp, <@${interaction.user.id}>: <t:${timestamp}:F>`;
+    const publicMessage = `Here's your timestamp, <@${interaction.user.id}>: <t:${timestamp}:${format}>`;
 
     if (defaultTimezone && defaultDate && defaultTime) {
       //print timestamp if no changed variables
@@ -183,7 +197,7 @@ const execute = async (interaction) => {
     } else {
       //send ephemeral message first, this is to protect the users country/timezone
       await interaction.reply({
-        content: `You can copy & paste this: \`<t:${timestamp}:F>\`\nThis message is invisible to protect you!`,
+        content: `You can copy & paste this: \`<t:${timestamp}:${format}>>\`\nThis message is invisible to protect you!`,
         ephemeral: true,
       });
       //follow-up message that shows the timestamp publicly
