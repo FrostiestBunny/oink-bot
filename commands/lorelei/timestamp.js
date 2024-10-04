@@ -91,6 +91,7 @@ const autocomplete = async (interaction) => {
     );
   } else if (focusedOption.name === 'date') {
     //autocomplete options for date
+    const yesterday = moment().subtract(1, 'day').format('YYYY-MM-DD');
     const today = moment().format('YYYY-MM-DD');
     const tomorrow = moment().add(1, 'day').format('YYYY-MM-DD');
 
@@ -103,6 +104,7 @@ const autocomplete = async (interaction) => {
     });
 
     const dateSuggestions = [
+      { name: 'Yesterday', value: yesterday },
       { name: 'Today', value: today },
       { name: 'Tomorrow', value: tomorrow },
       ...daysLaterSuggestions,
@@ -117,8 +119,8 @@ const autocomplete = async (interaction) => {
     //autocomplete options for time
     const timeSuggestions = [];
 
-    //loop for every 3rd hour
-    for (let hour = 0; hour < 24; hour += 3) {
+    //loop for every hour
+    for (let hour = 0; hour < 24; hour += 1) {
       const timeString = hour.toString().padStart(2, '0') + ':00';
       timeSuggestions.push({ name: timeString, value: timeString });
     }
