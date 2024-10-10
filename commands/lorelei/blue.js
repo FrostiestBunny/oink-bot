@@ -9,7 +9,7 @@ const data = new SlashCommandBuilder()
 //prints message
 const execute = async (interaction) => {
   await interaction.reply(
-    "```ini \n aaa ```"
+    "```ini\n[aaa]```"
   );
 };
 
