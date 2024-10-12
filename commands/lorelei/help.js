@@ -7,7 +7,7 @@ const data = new SlashCommandBuilder()
 
 const execute = async (interaction) => {
   const embed = new EmbedBuilder()
-    .setColor('Persian Green')
+    .setColor('#00a693')
     .setTitle('🐷 OinkBot Command List 🤖')
     .setDescription('Here are the available commands:')
     .addFields(
