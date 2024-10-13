@@ -1,4 +1,4 @@
-//headpat message command
+//truth message command
 const canvasGif = require('canvas-gif');
 const Canvas = require('canvas');
 const path = require('node:path');
@@ -6,18 +6,19 @@ const { SlashCommandBuilder, AttachmentBuilder } = require('discord.js');
 
 //name of slash command & description
 const data = new SlashCommandBuilder()
-  .setName('headpat')
-  .setDescription('Headpat a deserving person')
-  .addUserOption((option) =>
+  .setName('truth')
+  .setDescription('speak it')
+  .addStringOption((option) =>
     option
-      .setName('target')
-      .setDescription('The user to headpat')
+      .setName('truth')
+      .setDescription('Your truth.')
       .setRequired(true)
   );
 
 //adds user's profile pic to canvas
 const execute = async (interaction) => {
   await interaction.deferReply();
+  const inputText = interaction.options.getString('input');
   const target = interaction.options.getMember('target');
   const options = {
     fps: 15,
@@ -44,12 +45,17 @@ const execute = async (interaction) => {
     const canvas = Canvas.createCanvas(avatar.width, avatar.height);
     const ctx = canvas.getContext('2d');
     ctx.drawImage(avatar, 0, 0, avatar.width, avatar.height);
+
+    ctx.fillStyle = 'white'; // Background color
+    ctx.fillRect(0, 0, width, height); // Fill the background
+    ctx.fillStyle = 'blue'; // Text color
+    ctx.font = '40px Arial'; // Font settings
+
+    // Draw the text
+    ctx.fillText(inputText, 5, height / 2 + 15); // Center vertically (+15 for better alignment)
+
+
     context.globalCompositeOperation = 'destination-over';
-    if (currentFrame % 3 == 0) {
-      context.drawImage(canvas, 0, 20, canvas.width, canvas.height + 20);
-    } else {
-      context.drawImage(canvas, 0, 0, canvas.width, canvas.height);
-    }
   };
 
   //sends new headpat gif and message
