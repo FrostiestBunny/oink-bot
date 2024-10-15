@@ -14,43 +14,39 @@ const execute = async (interaction) => {
       {
         name: '🃏 Gambling Commands 🎲',
         value: `
-        **/blackjack**\t- Play a game of blackjack with OinkBot.
-        **/coinflip**\t- Flip a coin or coins.
-        **/diceroll**\t- Roll a die or dice.
-        **/magic8ball**\t- Ask a question & get a response.
+        **/blackjack** - Play a game of blackjack with OinkBot.
+        **/coinflip** - Flip a coin or coins.
+        **/diceroll** - Roll a die or dice.
+        **/magic8ball** - Ask a question & get a response.
       `,
-        inline: true,
       },
       {
         name: '🎉 Fun Commands 🎈',
         value: `
-        **/beam**\t- Fire Lorelei's Destroy Beam.
-        **/bonk**\t- Makes a gif of a target user getting hit with a mallet.
-        **/gomenasorry**\t- Prints some predefined apology notes.
-        **/headpat**\t- Makes a gif of a target user getting a headpat.
-        **/thank**\t- Prints ~~a thank you message for Lorelei~~ propaganda.
+        **/beam** - Fire Lorelei's Destroy Beam.
+        **/bonk** - Makes a gif of a target user getting hit with a mallet.
+        **/gomenasorry** - Prints some predefined apology notes.
+        **/headpat** - Makes a gif of a target user getting a headpat.
+        **/thank** - Prints ~~a thank you message for Lorelei~~ propaganda.
       `,
-        inline: true,
       },
       {
         name: '🔧 Utility Commands 🕰️',
         value: `
-        **/oinks**\t- Displays the target user's oinks (oinks are a Lorelei stream currency).
-        **/promise**\t- Displays all of Lorelei's promises.
-        **/suggest**\t- Allows a user to send a private suggestion to the mod team.
-        **/temperature**\t- Converts a given temperature into 4 different temperature scales.
-        **/timestamp**\t- Converts a given time for a city/timezone to a Discord timestamp, which will display in local time for each user.
+        **/oinks** - Displays the target user's oinks (oinks are a Lorelei stream currency).
+        **/promise** - Displays all of Lorelei's promises.
+        **/suggest** - Allows a user to send a private suggestion to the mod team.
+        **/temperature** - Converts a given temperature into 4 different scales.
+        **/timestamp** - Converts the time for a city/timezone to a Discord timestamp.
       `,
-        inline: true,
       },
       {
         name: '🔨 Mod Tools 🔪',
         value: `
-        **/filter**\t- Add a word or phrase for OinkBot to auto-punish.
-        **/promises**\t- Makes a new promise out of a Lorelei message.
-        **/punish**\t- Gives the target user a time limit to write one of the predefined apologies. Extreme version available.
+        **/filter** - Add a word or phrase for OinkBot to auto-punish.
+        **/promises** - Makes a new promise out of a Lorelei message.
+        **/punish** - Requires the user to apologise properly. Extreme version available.
       `,
-        inline: true,
       }
     );
 
