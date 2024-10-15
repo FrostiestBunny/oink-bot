@@ -27,18 +27,9 @@ const data = new SlashCommandBuilder()
 //convert the temperature
 const execute = async (interaction) => {
   try {
+    //declare variables, get user inputs
     const value = interaction.options.getNumber('value');
     const unit = interaction.options.getString('unit');
-
-    if (isNaN(value)) {
-      await interaction.reply({
-        content:
-          'Please enter a valid numerical value for the temperature! <:nyaAngry:1251302942456414218>',
-        ephemeral: true,
-      });
-      return;
-    }
-
     let celsius, fahrenheit, kelvin, rankine;
 
     //convert units
@@ -72,7 +63,7 @@ const execute = async (interaction) => {
     //make an embed with the conversion
     const embed = new EmbedBuilder()
       .setColor('DarkOrange')
-      .setTitle('🔥 Temperature Conversion ❄️')
+      .setTitle('🔥 Temperature Scales ❄️')
       .setThumbnail(interaction.member.displayAvatarURL())
       .addFields(
         { name: 'Celsius', value: `${celsius.toFixed(2)}°C`, inline: true },
@@ -81,8 +72,10 @@ const execute = async (interaction) => {
           value: `${fahrenheit.toFixed(2)}°F`,
           inline: true,
         },
+        { name: '\u200B', value: '\u200B', inline: true },
         { name: 'Kelvin', value: `${kelvin.toFixed(2)}K`, inline: true },
-        { name: 'Rankine', value: `${rankine.toFixed(2)}°R`, inline: true }
+        { name: 'Rankine', value: `${rankine.toFixed(2)}°R`, inline: true },
+        { name: '\u200B', value: '\u200B', inline: true }
       );
 
     //send the conversion
