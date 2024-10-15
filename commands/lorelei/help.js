@@ -19,6 +19,7 @@ const execute = async (interaction) => {
         **/diceroll**\t- Roll a die or dice.
         **/magic8ball**\t- Ask a question & get a response.
       `,
+        inline: true,
       },
       {
         name: '🎉 Fun Commands 🎈',
@@ -29,15 +30,18 @@ const execute = async (interaction) => {
         **/headpat**\t- Makes a gif of a target user getting a headpat.
         **/thank**\t- Prints ~~a thank you message for Lorelei~~ propaganda.
       `,
+        inline: true,
       },
       {
         name: '🔧 Utility Commands 🕰️',
         value: `
         **/oinks**\t- Displays the target user's oinks (oinks are a Lorelei stream currency).
         **/promise**\t- Displays all of Lorelei's promises.
-        **/timestamp**\t- Converts a given time for a city/timezone to a Discord timestamp, which will display in local time for each user.
         **/suggest**\t- Allows a user to send a private suggestion to the mod team.
+        **/temperature**\t- Converts a given temperature into 4 different temperature scales.
+        **/timestamp**\t- Converts a given time for a city/timezone to a Discord timestamp, which will display in local time for each user.
       `,
+        inline: true,
       },
       {
         name: '🔨 Mod Tools 🔪',
@@ -46,6 +50,7 @@ const execute = async (interaction) => {
         **/promises**\t- Makes a new promise out of a Lorelei message.
         **/punish**\t- Gives the target user a time limit to write one of the predefined apologies. Extreme version available.
       `,
+        inline: true,
       }
     );
 
