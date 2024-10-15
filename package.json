@@ -15,6 +15,7 @@
     "countries-and-timezones": "^3.7.0",
     "discord.js": "^14.16.1",
     "dotenv": "^16.4.5",
+    "gifencoder": "^2.0.1",
     "number-to-words": "^1.2.4",
     "prompt-sync": "^4.2.0",
     "require": "^0.4.4",
