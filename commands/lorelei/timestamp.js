@@ -207,7 +207,7 @@ const execute = async (interaction) => {
     console.error(error);
     await interaction.reply({
       content:
-        'Something went wrong while converting the time. <:nyaSad:1250106743514599435>',
+        'Something went wrong while converting the time... <:nyaSad:1250106743514599435>',
       ephemeral: true,
     });
   }
