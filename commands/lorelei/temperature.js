@@ -1,78 +1,92 @@
-// temperature conversion command
-const { SlashCommandBuilder } = require('discord.js');
+//temperature conversion command
+const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 
 //name of slash command & description
 const data = new SlashCommandBuilder()
-  .setName('temp')
-  .setDescription('Convert temperature between Celsius, Fahrenheit, and Kelvin.')
-  .addNumberOption(option =>
-    option.setName('value')
-      .setDescription('The temperature value to convert')
-      .setRequired(true))
-  .addStringOption(option =>
-    option.setName('from')
-      .setDescription('Temperature unit to convert from')
+  .setName('temperature')
+  .setDescription('Convert temperature between different scales')
+  .addNumberOption((option) =>
+    option
+      .setName('value')
+      .setDescription('Temperature value to convert')
+      .setRequired(true)
+  )
+  .addStringOption((option) =>
+    option
+      .setName('unit')
+      .setDescription('Unit of the temperature value')
       .setRequired(true)
       .addChoices(
         { name: 'Celsius', value: 'C' },
         { name: 'Fahrenheit', value: 'F' },
-        { name: 'Kelvin', value: 'K' }
-      ))
-  .addStringOption(option =>
-    option.setName('to')
-      .setDescription('Temperature unit to convert to')
-      .setRequired(true)
-      .addChoices(
-        { name: 'Celsius', value: 'C' },
-        { name: 'Fahrenheit', value: 'F' },
-        { name: 'Kelvin', value: 'K' }
-      ));
+        { name: 'Kelvin', value: 'K' },
+        { name: 'Rankine', value: 'R' }
+      )
+  );
 
+//convert the temperature
 const execute = async (interaction) => {
-  const value = interaction.options.getNumber('value');
-  const from = interaction.options.getString('from');
-  const to = interaction.options.getString('to');
-  
-  let convertedValue;
-  let conversionType;
+  try {
+    //declare variables, get user inputs
+    const value = interaction.options.getNumber('value');
+    const unit = interaction.options.getString('unit');
+    let celsius, fahrenheit, kelvin, rankine;
 
-  // conversion logic
-  if (from === 'C') {
-    if (to === 'F') {
-      convertedValue = (value * 9/5) + 32;
-      conversionType = 'Celsius to Fahrenheit';
-    } else if (to === 'K') {
-      convertedValue = value + 273.15;
-      conversionType = 'Celsius to Kelvin';
-    } else {
-      convertedValue = value; // C to C
-      conversionType = 'Celsius to Celsius';
+    //convert units
+    switch (unit) {
+      case 'C':
+        celsius = value;
+        fahrenheit = (value * 9) / 5 + 32;
+        kelvin = value + 273.15;
+        rankine = ((value + 273.15) * 9) / 5;
+        break;
+      case 'F':
+        celsius = ((value - 32) * 5) / 9;
+        fahrenheit = value;
+        kelvin = ((value - 32) * 5) / 9 + 273.15;
+        rankine = value + 459.67;
+        break;
+      case 'K':
+        celsius = value - 273.15;
+        fahrenheit = ((value - 273.15) * 9) / 5 + 32;
+        kelvin = value;
+        rankine = (value * 9) / 5;
+        break;
+      case 'R':
+        celsius = ((value - 491.67) * 5) / 9;
+        fahrenheit = value - 459.67;
+        kelvin = (value * 5) / 9;
+        rankine = value;
+        break;
     }
-  } else if (from === 'F') {
-    if (to === 'C') {
-      convertedValue = (value - 32) * 5/9;
-      conversionType = 'Fahrenheit to Celsius';
-    } else if (to === 'K') {
-      convertedValue = (value - 32) * 5/9 + 273.15;
-      conversionType = 'Fahrenheit to Kelvin';
-    } else {
-      convertedValue = value; // F to F
-      conversionType = 'Fahrenheit to Fahrenheit';
-    }
-  } else if (from === 'K') {
-    if (to === 'C') {
-      convertedValue = value - 273.15;
-      conversionType = 'Kelvin to Celsius';
-    } else if (to === 'F') {
-      convertedValue = (value - 273.15) * 9/5 + 32;
-      conversionType = 'Kelvin to Fahrenheit';
-    } else {
-      convertedValue = value; // K to K
-      conversionType = 'Kelvin to Kelvin';
-    }
+
+    //make an embed with the conversion
+    const embed = new EmbedBuilder()
+      .setColor('DarkOrange')
+      .setTitle('🔥 Temperature Scales ❄️')
+      .setThumbnail(interaction.member.displayAvatarURL())
+      .addFields(
+        { name: 'Celsius', value: `${celsius.toFixed(2)}°C`, inline: true },
+        {
+          name: 'Fahrenheit',
+          value: `${fahrenheit.toFixed(2)}°F`,
+          inline: true,
+        },
+        { name: '\u200B', value: '\u200B', inline: true },
+        { name: 'Kelvin', value: `${kelvin.toFixed(2)}K`, inline: true },
+        { name: 'Rankine', value: `${rankine.toFixed(2)}°R`, inline: true },
+        { name: '\u200B', value: '\u200B', inline: true }
+      );
+
+    //send the conversion
+    await interaction.reply({ embeds: [embed] });
+  } catch (error) {
+    console.error(error);
+    await interaction.reply({
+      content: 'Something went wrong while converting the temperature...',
+      ephemeral: true,
+    });
   }
-
-  await interaction.reply(`Converted ${value.toFixed(2)}° ${from} to ${convertedValue.toFixed(2)}° ${to}.`);
 };
 
 module.exports = { data, execute };
