@@ -48,7 +48,7 @@ const execute = async (interaction) => {
     }
   } catch (err) {
     await interaction.followUp({
-      content: 'Something went wrong <:nyaSad:1250106743514599435>',
+      content: 'Something went wrong, whoops. <:nyaSad:1250106743514599435>',
       ephemeral: true,
     });
     console.error(err);

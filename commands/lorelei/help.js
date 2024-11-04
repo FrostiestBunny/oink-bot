@@ -35,6 +35,7 @@ const execute = async (interaction) => {
         value: `
         **/oinks** - Displays the target user's oinks (oinks are a Lorelei stream currency).
         **/promise** - Displays all of Lorelei's promises.
+        **/rot13** - Encode/decode a message with the ROT13 cipher.
         **/suggest** - Allows a user to send a private suggestion to the mod team.
         **/temperature** - Converts a given temperature into 4 different scales.
         **/timestamp** - Converts the time for a city/timezone to a Discord timestamp.
