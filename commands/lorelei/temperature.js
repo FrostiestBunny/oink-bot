@@ -83,7 +83,8 @@ const execute = async (interaction) => {
   } catch (error) {
     console.error(error);
     await interaction.reply({
-      content: 'Something went wrong while converting the temperature...',
+      content:
+        'Something went wrong while converting the temperature... <:nyaSad:1250106743514599435>',
       ephemeral: true,
     });
   }

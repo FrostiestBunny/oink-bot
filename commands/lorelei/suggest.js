@@ -4,7 +4,7 @@ const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 //name of slash command & description
 const data = new SlashCommandBuilder()
   .setName('suggest')
-  .setDescription('Send suggestions/feedback for Lorelei')
+  .setDescription('Send suggestions/feedback for the mod team & Lorelei')
   .addStringOption((option) =>
     option
       .setName('category')
@@ -71,7 +71,7 @@ const execute = async (interaction) => {
     console.error(error);
     await interaction.reply({
       content:
-        'Something went wrong while sending your suggestion. <:nyaSad:1250106743514599435>',
+        'Something went wrong while sending your suggestion... <:nyaSad:1250106743514599435>',
       ephemeral: true,
     });
   }

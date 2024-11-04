@@ -197,7 +197,7 @@ const execute = async (interaction) => {
     } else {
       //send ephemeral message first, this is to protect the users country/timezone
       await interaction.reply({
-        content: `You can copy & paste this: \`<t:${timestamp}:${format}>>\`\nThis message is invisible to protect you!`,
+        content: `You can copy & paste this: \`<t:${timestamp}:${format}>\`\nThis message is invisible to protect you!`,
         ephemeral: true,
       });
       //follow-up message that shows the timestamp publicly
