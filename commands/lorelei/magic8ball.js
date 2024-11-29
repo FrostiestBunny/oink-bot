@@ -49,6 +49,7 @@ const responses = {
     'CORN DOGS!',
     'Uppies for you!',
   ],
+  bully: [],
 };
 
 //ask the 8ball
