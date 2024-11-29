@@ -1,4 +1,4 @@
-//headpat message command
+//bonk message command
 const canvasGif = require('canvas-gif');
 const Canvas = require('canvas');
 const path = require('node:path');
@@ -6,12 +6,12 @@ const { SlashCommandBuilder, AttachmentBuilder } = require('discord.js');
 
 //name of slash command & description
 const data = new SlashCommandBuilder()
-  .setName('headpat')
-  .setDescription('Headpat a deserving person')
+  .setName('bonk')
+  .setDescription('Kill them with hammers')
   .addUserOption((option) =>
     option
       .setName('target')
-      .setDescription('The user to headpat')
+      .setDescription('The one we are offering a headache to')
       .setRequired(true)
   );
 
@@ -33,7 +33,7 @@ const execute = async (interaction) => {
     target.displayAvatarURL({ extension: 'png' })
   );
 
-  //creates new gif of user's avatar getting a headpat
+  //creates new gif of user's avatar getting bonked
   const callBack = async (
     context,
     width,
@@ -45,19 +45,18 @@ const execute = async (interaction) => {
     const ctx = canvas.getContext('2d');
     ctx.drawImage(avatar, 0, 0, avatar.width, avatar.height);
     context.globalCompositeOperation = 'destination-over';
-    if (currentFrame % 3 == 0) {
+    if (currentFrame % 7 == 0) {
       context.drawImage(canvas, 0, 20, canvas.width, canvas.height + 20);
     } else {
       context.drawImage(canvas, 0, 0, canvas.width, canvas.height);
     }
   };
-
-  //sends new headpat gif and message
-  canvasGif(path.join(__dirname, 'headpat.gif'), callBack, options)
+  //sends new bonk gif and message
+  canvasGif(path.join(__dirname, 'bonk.gif'), callBack, options)
     .then((buffer) => {
-      const attachment = new AttachmentBuilder(buffer, { name: 'headpat.gif' });
+      const attachment = new AttachmentBuilder(buffer, { name: 'bonk.gif' });
       return interaction.followUp({
-        content: `${interaction.member} is headpatting ${target}!`,
+        content: `${interaction.member} is bonking ${target}!`,
         files: [attachment],
       });
     })
@@ -69,5 +68,4 @@ const execute = async (interaction) => {
       });
     });
 };
-
 module.exports = { data, execute };

@@ -47,7 +47,7 @@ const execute = async (interaction) => {
     try {
       const name = interaction.options.getString('name');
       const re = interaction.options.getString('regex');
-      
+
       //add new word & regex to banned word list
       const added = await interaction.client.bannedTable.create({
         regex: re,
@@ -67,9 +67,10 @@ const execute = async (interaction) => {
         return interaction.followUp('Regex already exists.');
       } else {
         console.error(error);
-        return interaction.followUp(
-          'Something went wrong <:nyaSad:1250106743514599435>'
-        );
+        return interaction.followUp({
+          content: 'Something went wrong. <:nyaSad:1250106743514599435>',
+          ephemeral: true,
+        });
       }
     }
   } else if (interaction.options.getSubcommand() === 'delete') {
@@ -90,9 +91,10 @@ const execute = async (interaction) => {
       await interaction.followUp(`Deleted rule for ${name}.`);
     } catch (error) {
       console.error(error);
-      return interaction.followUp(
-        'Something went wrong <:nyaSad:1250106743514599435>'
-      );
+      return interaction.followUp({
+        content: 'Something went wrong... <:nyaSad:1250106743514599435>',
+        ephemeral: true,
+      });
     }
   }
 };

@@ -1,7 +1,6 @@
 //oinks command, used to check oinks from Lorelei's twitch
 require('dotenv').config();
 const { SlashCommandBuilder } = require('discord.js');
-const { SE_ENDPOINTS } = require('../../se-endpoints');
 const twitchManager = require('../../twitchManager');
 
 const CHANNEL_ID = process.env.CHANNEL_ID;
@@ -36,9 +35,11 @@ const execute = async (interaction) => {
   try {
     const response = await twitchManager.getUserPoints(name);
     if (response.error) {
-      await interaction.followUp(
-        'No such user <:nyaSad:1250106743514599435>\nCheck if you entered your Twitch name correctly!'
-      );
+      await interaction.followUp({
+        content:
+          'No such user <:nyaSad:1250106743514599435>\nCheck if you entered your Twitch name correctly!',
+        ephemeral: true,
+      });
     } else {
       const [oinks, rank] = [response.points, response.rank];
       await interaction.followUp(
@@ -46,9 +47,10 @@ const execute = async (interaction) => {
       );
     }
   } catch (err) {
-    await interaction.followUp(
-      'Something went wrong <:nyaSad:1250106743514599435>'
-    );
+    await interaction.followUp({
+      content: 'Something went wrong, whoops. <:nyaSad:1250106743514599435>',
+      ephemeral: true,
+    });
     console.error(err);
   }
 };
